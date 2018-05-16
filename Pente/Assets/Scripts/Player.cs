@@ -1,16 +1,26 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
+	[SerializeField] Material m_pieceMaterial;
+	[SerializeField] TMP_InputField m_text;
+	public string Name { get { return m_text.text; } set { m_text.text = value; } }
 
-	// Use this for initialization
-	void Start () {
-		
+	void Start()
+	{
+		Name = "Player";
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	/// <summary>
+	/// Checks if you can place a piece and places if true
+	/// </summary>
+	/// <returns></returns>
+	public virtual bool PlacePiece()
+	{
+		throw new NotImplementedException();
 	}
 }

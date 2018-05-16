@@ -1,16 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : MonoBehaviour {
+public class AI : Player
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	/// <summary>
+	/// Lets the AI decide where to place a piece and returns true
+	/// </summary>
+	/// <returns></returns>
+	public override bool PlacePiece()
+	{
+		throw new NotImplementedException();
 	}
 }

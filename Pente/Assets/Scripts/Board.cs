@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Board : MonoBehaviour {
+public class Board : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
+	void Start()
+	{
+
 	}
+
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
