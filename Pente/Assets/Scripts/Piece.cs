@@ -3,29 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Piece : MonoBehaviour
-{
-	public PlacementCircle m_location;
-	void Start()
-	{
+public class Piece : MonoBehaviour {
 
-	}
+    [SerializeField] Material m_material = null;
 
-	/// <summary>
-	/// Checks neighboors in cases of capturing opponents
-	/// </summary>
-	/// <returns></returns>
-	public bool CheckNeighboors()
-	{
-		throw new NotImplementedException();
-	}
+    private Player m_owner = null;
+    private PlacementCircle m_location = null;
 
-	/// <summary>
-	/// checks for 5 in a row
-	/// </summary>
-	/// <returns></returns>
-	public bool CheckForWin()
-	{
-		throw new NotImplementedException();
-	}
+    public Player Owner {
+        get { return m_owner; }
+        set {
+            m_owner = value;
+            GetComponent<MeshRenderer>().material = (m_owner.PieceMaterial ? m_owner.PieceMaterial : null);
+        }
+    }
+
+    void Start() {
+
+    }
+
+    /// <summary>
+    /// Checks neighboors in cases of capturing opponents
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckNeighbors() {
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// checks for 5 in a row
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckForWin() {
+        throw new NotImplementedException();
+    }
 }

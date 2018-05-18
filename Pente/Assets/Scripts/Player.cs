@@ -9,9 +9,11 @@ public class Player : MonoBehaviour
 	[SerializeField] Material m_pieceMaterial;
 	[SerializeField] TMP_InputField m_text;
 	[SerializeField] private int m_numberOfCaptures = 0;
-	public string Name { get { return m_text.text; } set { m_text.text = value; } }
 
-	void Start()
+	public string Name { get { return m_text.text; } set { m_text.text = value; } }
+    public Material PieceMaterial { get { return m_pieceMaterial; } }
+
+    void Start()
 	{
 		Name = "Player";
 	}
