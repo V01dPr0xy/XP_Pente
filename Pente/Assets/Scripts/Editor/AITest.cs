@@ -6,106 +6,121 @@ using System.Collections;
 
 public class NewEditModeTest
 {
-
-    /*
-        public override bool PlacePiece()
-
-        var expected = true;
-        var actual = false;
-        GameObject piece;
-        GameObject board;
-        is piece collider colliding with board
-        if yes
-        actual = true
-        if no
-        actual = false
-    */
-    bool collided = false;
-
-
-    [Test]
-    public void EditMode_PlacePiece_TestSimplePasses()
-    {
-        // Use the Assert class to test conditions.
-        //var expected = true, actual = false;
-
-        GameObject piece, board;
-
-        
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        collided = true;
-    }
-
-    // A UnityTest behaves like a coroutine in PlayMode
-    // and allows you to yield null to skip a frame in EditMode
     [UnityTest]
-    public IEnumerator EditMode_PlacePiece_TestWithEnumeratorPasses()
+    public IEnumerator ValidPiecePlace()
     {
-        // Use the Assert class to test conditions.
-        // yield to skip a frame
-        yield return null;
+		// Use the Assert class to test conditions.
+		//var expected = true, actual = false;
+		/*
+			public override bool PlacePiece()
+
+			var expected = true;
+			var actual = false;
+			GameObject piece;
+			GameObject board;
+			is piece collider colliding with board
+			if yes
+			actual = true
+			if no
+			actual = false
+		*/
+
+		Assert.Fail();
+		return null;
     }
 
-    /*
-        public List<PlacementCircle> FindNeighboors
+	/*
+		Player 1's first move must be center, position (0,0)
+		Player 1's second movement must be 3 (inclusive) or more intersecting from center
+		Exactly 2 pieces may be captured by blocking both sides (check for every possible capture)
+	*/
 
-        char array[][] will act like the board
-        place b (black pieces) and w (white pieces) according to what we to test
-        store the positions of the surrounding array points
-        have the expected array store the position that are filled
-        compare the array positions
+	[UnityTest]
+	public IEnumerator InvalidPiecePlace()
+	{
+		
+		Assert.Fail();
+		return null;
+	}
 
-        actual array[][] will use funcion, and grab the positions that are filled
-        iterate through list for()
-        use PlacePiece function to check if a piece is placed
-        if(true) store position
+	[UnityTest]
+	public IEnumerator WinRow()
+	{
+		// Use the Assert class to test conditions.
+		// yield to skip a frame
+		Assert.Fail();
+		return null;
 
-        compare positions
-     */
+	}
 
-    /*
-       Check for win   
-       
-        Calls checks neighbors on an instance of 5 pieces, with a chain of 5 in a row. If so, return true, if not return false
-        ^?
-        
-        //checking vertercally, horizontally, and diagnolly
-    */
+	[UnityTest]
+	public IEnumerator WinColumn()
+	{
+		// Use the Assert class to test conditions.
+		// yield to skip a frame
+		Assert.Fail();
+		return null;
 
-    /*
-        Check neighbors
-        
-        Get a location and check all the adjacent position if a piece is placed
+	}
 
-        //the follow code belongs elsewhere (currently unknown)
-        Recurse and try to find any more pieces that would assist or prevent capturing two pieces
-    */
+	[UnityTest]
+	public IEnumerator WinDiagonalLeft()
+	{
+		// Use the Assert class to test conditions.
+		// yield to skip a frame
+		Assert.Fail();
+		return null;
+	}
 
-    /*
-        PlacePiece (Player) 
-         
-        Get the location at which the player is trying to place a piece
+	[UnityTest]
+	public IEnumerator WinDiagonalRight()
+	{
+		// Use the Assert class to test conditions.
+		// yield to skip a frame
+		Assert.Fail();
+		return null;
+	}
 
-        Check if the place is taken or not
+	[Test]
+	public IEnumerator WinTenOrMoreCaptures()
+	{
+		// Use the Assert class to test conditions.
+		// yield to skip a frame
+		Assert.Fail();
+		return null;
+	}
 
-        //? Check for neighboring pieces
+	[UnityTest]
+	public IEnumerator CaptureRow()
+	{
+		Assert.Fail();
+		return null;
+	}
 
-        compare actual to expected value if it can be placed or not
-    */
+	[UnityTest]
+	public IEnumerator CaptureColumn()
+	{
+		Assert.Fail();
+		return null;
+	}
 
-
-    [Test]
-    public void NewEditModeTestSimplePasses()
+	[UnityTest]
+    public IEnumerator CaptureDiagonalLeft()
     {
-        // Use the Assert class to test conditions.
+		Assert.Fail();
+		return null;
     }
 
-    // A UnityTest behaves like a coroutine in PlayMode
-    // and allows you to yield null to skip a frame in EditMode
-    [UnityTest]
+	[UnityTest]
+	public IEnumerator CaptureDiagonalRight()
+	{
+		Assert.Fail();
+		return null;
+	}
+
+	// A UnityTest behaves like a coroutine in PlayMode
+	// and allows you to yield null to skip a frame in EditMode
+	[UnityTest]
     public IEnumerator NewEditModeTestWithEnumeratorPasses()
     {
         // Use the Assert class to test conditions.
