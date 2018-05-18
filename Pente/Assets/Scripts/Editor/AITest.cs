@@ -20,6 +20,34 @@ public class NewEditModeTest
         if no
         actual = false
     */
+    bool collided = false;
+
+
+    [Test]
+    public void EditMode_PlacePiece_TestSimplePasses()
+    {
+        // Use the Assert class to test conditions.
+        //var expected = true, actual = false;
+
+        GameObject piece, board;
+
+        
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        collided = true;
+    }
+
+    // A UnityTest behaves like a coroutine in PlayMode
+    // and allows you to yield null to skip a frame in EditMode
+    [UnityTest]
+    public IEnumerator EditMode_PlacePiece_TestWithEnumeratorPasses()
+    {
+        // Use the Assert class to test conditions.
+        // yield to skip a frame
+        yield return null;
+    }
 
     /*
         public List<PlacementCircle> FindNeighboors
