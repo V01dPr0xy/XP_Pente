@@ -25,6 +25,7 @@ public class PlacementCircle : MonoBehaviour {
     /// Finds all neighboors and adds them to the list of neighboors.
     /// </summary>
     /// <returns></returns>
+    /// Could use Unit Test
     public List<PlacementCircle> FindNeighbors() {
         m_neighbors.Clear();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, m_radius);
@@ -43,6 +44,7 @@ public class PlacementCircle : MonoBehaviour {
         m_renderer.enabled = false;
     }
 
+    //Needs Unit Test
     public bool PlacePiece(Player player) {
         if (m_piece || !m_piecePrefab) return false;
         m_piece = Instantiate(m_piecePrefab, transform.position, Quaternion.identity, transform);

@@ -26,7 +26,7 @@ public class Piece : MonoBehaviour {
     /// Checks neighboors in cases of capturing opponents
     /// </summary>
     /// <returns></returns>
-    public bool CheckNeighbors() {
+    public bool CheckForCapture() {
         throw new NotImplementedException();
     }
 
