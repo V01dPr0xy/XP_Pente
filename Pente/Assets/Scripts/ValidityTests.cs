@@ -27,6 +27,8 @@ using System.Text;
             int bottomRight = 0;
             bool continueBottomRight = true;
 
+            int length = (int)Math.Sqrt(currentState.Length);
+
             for (int i = 1; i < 5; i++) {
                 //Right
                 if (x - i >= 0 && continueRight) {
@@ -34,7 +36,7 @@ using System.Text;
                     else continueRight = false;
                 }
                 //Left
-                if (x + i < currentState.Length && continueLeft) {
+                if (x + i < length && continueLeft) {
                     if (currentState[x + i, y] == player) left++;
                     else continueLeft = false;
                 }
@@ -45,7 +47,7 @@ using System.Text;
                     else continueTop = false;
                 }
                 //Bottom
-                if (y + i < currentState.Length && continueBottom) {
+                if (y + i < length && continueBottom) {
                     if (currentState[x, y + i] == player) bottom++;
                     else continueBottom = false;
                 }
@@ -53,12 +55,12 @@ using System.Text;
 
                 //Diagonals
                 //Top Right
-                if (x + i < currentState.Length && y - i >= 0 && continueTopRight) {
+                if (x + i < length && y - i >= 0 && continueTopRight) {
                     if (currentState[x + i, y - i] == player) topRight++;
                     else continueTopRight = false;
                 }
                 //Bottom Left
-                if (x - i >= 0 && y + i < currentState.Length && continueBottomLeft) {
+                if (x - i >= 0 && y + i < length && continueBottomLeft) {
                     if (currentState[x - i, y + i] == player) bottomLeft++;
                     else continueBottomLeft = false;
                 }
@@ -70,7 +72,7 @@ using System.Text;
                     else continueTop = false;
                 }
                 //Bottom Right
-                if (x + i < currentState.Length && y + i < currentState.Length && continueBottomRight) {
+                if (x + i < length && y + i < length && continueBottomRight) {
                     if (currentState[x + i, y + i] == player) bottom++;
                     else continueBottom = false;
                 }

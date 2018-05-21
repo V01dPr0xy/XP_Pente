@@ -100,12 +100,17 @@ public class Board : MonoBehaviour {
     public int[,] ToArray() {
         m_boardArray = new int[(int)((m_slider.value * 2) + 7), (int)((m_slider.value * 2) + 7)];
 
+        for (int i = 0; i < (int)((m_slider.value * 2) + 7); i++) {
+            for (int j = 0; j < (int)((m_slider.value * 2) + 7); j++) {
+                m_boardArray[i, j] = -1;
+            }
+        }
         int offset = ((int)((m_slider.value * 2) + 7)) /2 ;
 
         foreach (PlacementCircle item in m_placementCircles) {
             if (item.m_piece != null) {
                 m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = item.m_piece.Owner.ID;
-            } else m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = -1;
+            } //else m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = -1;
         }
 
         return m_boardArray;
