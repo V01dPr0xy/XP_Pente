@@ -9,12 +9,12 @@ public class PlacementCircle : MonoBehaviour {
     [SerializeField] private float m_radius = 1.5f;
     [SerializeField] private List<PlacementCircle> m_neighbors = new List<PlacementCircle>();
     [SerializeField] private Piece m_piecePrefab = null;
-    [SerializeField] private Vector2 m_coordinate;
+    [SerializeField] public Vector2 m_coordinate;
 
 
     public List<PlacementCircle> Neighbors { get { return m_neighbors; } }
     private MeshRenderer m_renderer = null;
-    private Piece m_piece = null;
+    public Piece m_piece = null;
 
     void Start() {
         m_renderer = GetComponent<MeshRenderer>();
@@ -33,8 +33,8 @@ public class PlacementCircle : MonoBehaviour {
 
         foreach (var pc in hitColliders) {
             if (pc.GetComponent<PlacementCircle>() != null)
-            if (!pc.GetComponent<PlacementCircle>().Equals(this))
-                 m_neighbors.Add(pc.GetComponent<PlacementCircle>());
+                if (!pc.GetComponent<PlacementCircle>().Equals(this))
+                    m_neighbors.Add(pc.GetComponent<PlacementCircle>());
         }
         return new List<PlacementCircle>(m_neighbors);
     }
@@ -54,9 +54,15 @@ public class PlacementCircle : MonoBehaviour {
         m_piece.Owner = player;
         return true;
     }
+    public void Clear() {
+        if (m_piece != null){
+            Destroy(m_piece.gameObject);
+        }
+        m_piece = null;
+    }
 
     public void UpdateCoordinates() {
         m_coordinate = new Vector2(transform.position.x / 2, transform.position.y / 2);
     }
-    
+
 }

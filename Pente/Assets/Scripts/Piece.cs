@@ -7,7 +7,7 @@ using UnityEngine;
 public class Piece : MonoBehaviour {
 
     private Player m_owner = null;
-    private PlacementCircle m_location = null;
+    //private PlacementCircle m_location = null;
 
     public Player Owner {
         get { return m_owner; }
@@ -22,7 +22,7 @@ public class Piece : MonoBehaviour {
     }
 
     /// <summary>
-    /// Checks neighboors in cases of capturing opponents
+    /// Checks neighbors in cases of capturing opponents
     /// </summary>
     /// <returns></returns>
     public bool CheckForCapture() {

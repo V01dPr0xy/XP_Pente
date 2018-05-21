@@ -14,7 +14,7 @@ public class Game : MonoBehaviour {
     [SerializeField] private Board m_board;
 
     [SerializeField] public Material[] m_Materials;
-
+    public Player[] m_players = new Player[3];
 
     private PlacementCircle m_highlightedCircle = null;
     private Player m_currentPlayer = null;
@@ -23,6 +23,10 @@ public class Game : MonoBehaviour {
     void Start() {
         m_instance = this;
         m_currentPlayer = m_player1;
+
+        m_players[0] = m_player1;
+        m_players[1] = m_player2;
+        m_players[2] = m_playerAI;
     }
 
     /// <summary>
@@ -36,31 +40,34 @@ public class Game : MonoBehaviour {
     /// </summary>
 
     public void Save() {
-        //m_saveBoard.m_currentBoard = m_board;
-        //m_saveBoard.m_currentPlayer = m_currentPlayer;
-        //m_saveBoard.m_player1 = m_player1;
-        //m_saveBoard.m_player2 = m_player2;
-        //m_saveBoard.m_playerAI = m_playerAI;
-        //m_saveBoard.mode = (int)m_mode;
-        //BinaryFormatter bf = new BinaryFormatter();
-        //FileStream file = File.Create(Application.persistentDataPath + "testSave.dat");
-        //bf.Serialize(file, m_saveBoard);
-        //file.Close();
+        m_saveBoard.currentBoard = m_board.GetSaveData();
+        m_saveBoard.currentPlayer = m_currentPlayer.GetSaveData();
+        m_saveBoard.player1 = m_player1.GetSaveData();
+        m_saveBoard.player2 = m_player2.GetSaveData();
+        m_saveBoard.playerAI = m_playerAI.GetSaveData();
+        m_saveBoard.mode = m_mode;
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "testSave.dat");
+        bf.Serialize(file, m_saveBoard);
+        file.Close();
     }
 
 
     public void Load() {
-        //if (File.Exists(Application.persistentDataPath + "testSave.dat")) {
-        //    BinaryFormatter bf = new BinaryFormatter();
-        //    FileStream file = File.Open(Application.persistentDataPath + "testSave.dat", FileMode.Open);
-        //    m_saveBoard = (SaveData)bf.Deserialize(file);
-        //    m_board = m_saveBoard.m_currentBoard;
-        //    m_currentPlayer = m_saveBoard.m_currentPlayer;
-        //    m_player1 = m_saveBoard.m_player1;
-        //    m_player2 = m_saveBoard.m_player2;
-        //    m_playerAI = m_saveBoard.m_playerAI;
-        //    m_mode = (eMode)m_saveBoard.mode;
-        //}
+        if (File.Exists(Application.persistentDataPath + "testSave.dat")) {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "testSave.dat", FileMode.Open);
+            m_saveBoard = (SaveData)bf.Deserialize(file);
+            file.Close();
+            m_board.LoadSaveData(m_saveBoard.currentBoard);// = m_saveBoard.m_currentBoard;
+            m_player1.LoadSaveData(m_saveBoard.player1);// = m_saveBoard.m_player1;
+            m_player2.LoadSaveData(m_saveBoard.player2);// = m_saveBoard.m_player2;
+            m_playerAI.LoadSaveData(m_saveBoard.playerAI);// = m_saveBoard.m_playerAI;
+            m_currentPlayer = m_players[m_saveBoard.currentPlayer.id];
+            
+
+            m_mode = m_saveBoard.mode;
+        }
     }
 
     void Update() {

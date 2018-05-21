@@ -24,6 +24,7 @@ public class Board : MonoBehaviour {
     [SerializeField] List<BoardExtension> m_extensions = new List<BoardExtension>();
     [SerializeField] Slider m_slider = null;
     [SerializeField] float m_baseCameraDistance = -10.0f;
+    [SerializeField] int[,] m_boardArray;
 
 
     public List<PlacementCircle> PlacementCircles { get { return m_placementCircles; } set { m_placementCircles = value; } }
@@ -31,6 +32,39 @@ public class Board : MonoBehaviour {
     private void Start() {
         m_placementCircles = new List<PlacementCircle>(GetComponentsInChildren<PlacementCircle>());
         CenterBoard();
+    }
+
+    public SaveData.BoardData GetSaveData() {
+        SaveData.BoardData save = new SaveData.BoardData();
+        List<SaveData.PlacementCircleData> circles = new List<SaveData.PlacementCircleData>();
+
+        foreach (PlacementCircle item in m_placementCircles) {
+            SaveData.PlacementCircleData hmm = new SaveData.PlacementCircleData();
+            hmm.coordinate = new SaveData.Vector2Data(item.m_coordinate.x, item.m_coordinate.y);
+            if (item.m_piece != null) hmm.ownerId = item.m_piece.Owner.ID;
+            else hmm.ownerId = -1;
+            circles.Add(hmm);
+        }
+
+        save.placementCircles = circles;
+        save.sliderValue = (int)m_slider.value;
+        return save;
+    }
+
+    public void LoadSaveData(SaveData.BoardData save) {
+        m_slider.value = save.sliderValue;
+        foreach (var item in m_placementCircles) {
+            item.Clear();
+        }
+        foreach (PlacementCircle current in m_placementCircles) {
+            foreach (SaveData.PlacementCircleData saved in save.placementCircles) {
+                if (current.m_coordinate.x == saved.coordinate.x &&
+                    current.m_coordinate.y == saved.coordinate.y) {
+                    if (saved.ownerId != -1) current.PlacePiece(Game.m_instance.m_players[saved.ownerId]);
+                    break;
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -61,5 +95,45 @@ public class Board : MonoBehaviour {
             circle.UpdateCoordinates();
         }
 
+    }
+
+    public int[,] ToArray() {
+        m_boardArray = new int[(int)((m_slider.value * 2) + 7), (int)((m_slider.value * 2) + 7)];
+
+        int offset = ((int)((m_slider.value * 2) + 7)) /2 ;
+
+        foreach (PlacementCircle item in m_placementCircles) {
+            if (item.m_piece != null) {
+                m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = item.m_piece.Owner.ID;
+            } else m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = -1;
+        }
+
+        return m_boardArray;
+    }
+
+    public static bool CheckForWin(int[,] currentState, int x, int y) {
+
+        int player = currentState[x, y];
+
+        int top = 0;
+        int bottom = 0;
+        int left = 0;
+        int right = 0;
+
+        int topLeft = 0;
+        int topRight = 0;
+        int bottomLeft = 0;
+        int bottomRight = 0;
+        for (int i = 0; i < 5; i++) {
+            //Left
+            if (x - i >= 0) { }
+            //Right
+
+            //Top
+
+            //Bottom
+        }
+
+        return false;
     }
 }

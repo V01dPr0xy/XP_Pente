@@ -31,4 +31,20 @@ public class Player : MonoBehaviour
 	{
 		throw new NotImplementedException();
 	}
+
+    public SaveData.PlayerData GetSaveData() {
+        SaveData.PlayerData save = new SaveData.PlayerData();
+
+        save.captures = m_numberOfCaptures;
+        save.id = m_id;
+        save.name = Name;
+        save.pieceMaterial = m_pieceMaterial;
+
+        return save;
+    }
+
+    public void LoadSaveData(SaveData.PlayerData save) {
+        m_numberOfCaptures = save.captures;
+        Name = save.name;
+    }
 }
