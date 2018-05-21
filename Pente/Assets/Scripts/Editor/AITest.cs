@@ -3,15 +3,16 @@ using UnityEditor;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 
 public class NewEditModeTest
 {
     [UnityTest]
     public IEnumerator ValidPiecePlace()
     {
-		// Use the Assert class to test conditions.
-		//var expected = true, actual = false;
-		/*
+        // Use the Assert class to test conditions.
+        //var expected = true, actual = false;
+        /*
 			public override bool PlacePiece()
 
 			var expected = true;
@@ -25,8 +26,14 @@ public class NewEditModeTest
 			actual = false
 		*/
 
-		Assert.Fail();
-		return null;
+        //Attempting to place a piece at  (0,0) 
+
+        //Load the board Prefab
+        GameObject mockedBoard = Board.Instantiate(new GameObject());
+        var board = new GameObject().AddComponent<Board>();
+        Debug.Log(mockedBoard);
+        Assert.AreEqual(null, board.PlacementCircles);
+        return null;
     }
 
 	/*
