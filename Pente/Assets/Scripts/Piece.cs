@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Piece : MonoBehaviour {
 
     [SerializeField] Material m_material = null;

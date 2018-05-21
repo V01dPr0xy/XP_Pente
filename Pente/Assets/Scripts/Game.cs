@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using eTypes;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class Game : MonoBehaviour {
     public static Game m_instance;
@@ -9,9 +11,14 @@ public class Game : MonoBehaviour {
     [SerializeField] private Player m_player1;
     [SerializeField] private Player m_player2;
     [SerializeField] private Player m_playerAI;
+    [SerializeField] private Board m_board;
+
+    [SerializeField] public Material[] m_Materials;
+
 
     private PlacementCircle m_highlightedCircle = null;
     private Player m_currentPlayer = null;
+    private SavedBoard m_saveBoard = new SavedBoard();
 
     void Start() {
         m_instance = this;
@@ -26,6 +33,34 @@ public class Game : MonoBehaviour {
     /// save load
     /// menu should pause timer/game
     /// </summary>
+
+    public void Save() {
+        m_saveBoard.m_currentBoard = m_board;
+        m_saveBoard.m_currentPlayer = m_currentPlayer;
+        m_saveBoard.m_player1 = m_player1;
+        m_saveBoard.m_player2 = m_player2;
+        m_saveBoard.m_playerAI = m_playerAI;
+        m_saveBoard.mode = (int)m_mode;
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "testSave.dat");
+        bf.Serialize(file, m_saveBoard);
+        file.Close();
+    }
+
+
+    public void Load() {
+        if (File.Exists(Application.persistentDataPath + "testSave.dat")) {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "testSave.dat", FileMode.Open);
+            m_saveBoard = (SavedBoard)bf.Deserialize(file);
+            m_board = m_saveBoard.m_currentBoard;
+            m_currentPlayer = m_saveBoard.m_currentPlayer;
+            m_player1 = m_saveBoard.m_player1;
+            m_player2 = m_saveBoard.m_player2;
+            m_playerAI = m_saveBoard.m_playerAI;
+            m_mode = (eMode)m_saveBoard.mode;
+        }
+    }
 
     void Update() {
         PlacementCircle circle = null;

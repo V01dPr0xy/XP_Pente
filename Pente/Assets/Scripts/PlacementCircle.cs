@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class PlacementCircle : MonoBehaviour {
 
     [SerializeField] private float m_radius = 1.5f;
@@ -31,7 +32,9 @@ public class PlacementCircle : MonoBehaviour {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, m_radius);
 
         foreach (var pc in hitColliders) {
-            if (!pc.GetComponent<PlacementCircle>().Equals(this)) m_neighbors.Add(pc.GetComponent<PlacementCircle>());
+            if (pc.GetComponent<PlacementCircle>() != null)
+            if (!pc.GetComponent<PlacementCircle>().Equals(this))
+                 m_neighbors.Add(pc.GetComponent<PlacementCircle>());
         }
         return new List<PlacementCircle>(m_neighbors);
     }
