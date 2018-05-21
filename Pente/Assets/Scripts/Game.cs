@@ -18,7 +18,7 @@ public class Game : MonoBehaviour {
 
     private PlacementCircle m_highlightedCircle = null;
     private Player m_currentPlayer = null;
-    private SavedBoard m_saveBoard = new SavedBoard();
+    private SaveData m_saveBoard = new SaveData();
 
     void Start() {
         m_instance = this;
@@ -52,7 +52,7 @@ public class Game : MonoBehaviour {
         if (File.Exists(Application.persistentDataPath + "testSave.dat")) {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "testSave.dat", FileMode.Open);
-            m_saveBoard = (SavedBoard)bf.Deserialize(file);
+            m_saveBoard = (SaveData)bf.Deserialize(file);
             m_board = m_saveBoard.m_currentBoard;
             m_currentPlayer = m_saveBoard.m_currentPlayer;
             m_player1 = m_saveBoard.m_player1;

@@ -6,8 +6,6 @@ using UnityEngine;
 [Serializable]
 public class Piece : MonoBehaviour {
 
-    [SerializeField] Material m_material = null;
-
     private Player m_owner = null;
     private PlacementCircle m_location = null;
 
