@@ -9,7 +9,6 @@ public class Game : MonoBehaviour {
     [SerializeField] private Player m_player1;
     [SerializeField] private Player m_player2;
     [SerializeField] private Player m_playerAI;
-    [SerializeField] List<PlacementCircle> m_boardAreas;
 
     private PlacementCircle m_highlightedCircle = null;
     private Player m_currentPlayer = null;
@@ -18,6 +17,15 @@ public class Game : MonoBehaviour {
         m_instance = this;
         m_currentPlayer = m_player1;
     }
+    /// <summary>
+    /// 9x 39
+    /// square and odd
+    /// 
+    /// 20 second timer
+    /// notif for timer has stopped before turn change
+    /// save load
+    /// menu should pause timer/game
+    /// </summary>
 
     void Update() {
         PlacementCircle circle = null;
@@ -28,11 +36,11 @@ public class Game : MonoBehaviour {
         if (circle) circle.Highlight();
         if (circle != m_highlightedCircle && m_highlightedCircle != null) m_highlightedCircle.Hide();
         if (Input.GetMouseButtonDown(0) && circle != null) {
-            circle.PlacePiece(m_currentPlayer);
-            SwitchPlayers();
+            if (circle.PlacePiece(m_currentPlayer)) {
+                SwitchPlayers();
+            }
         }
         m_highlightedCircle = circle;
-
     }
 
     private void SwitchPlayers() {
@@ -42,7 +50,7 @@ public class Game : MonoBehaviour {
                     m_currentPlayer = m_player2;
                     break;
                 case eMode.PVE:
-                    m_currentPlayer = m_player2;
+                    m_currentPlayer = m_playerAI;
                     break;
             }
         } else {

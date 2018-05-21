@@ -8,6 +8,7 @@ public class PlacementCircle : MonoBehaviour {
     [SerializeField] private float m_radius = 1.5f;
     [SerializeField] private List<PlacementCircle> m_neighbors = new List<PlacementCircle>();
     [SerializeField] private Piece m_piecePrefab = null;
+    [SerializeField] private Vector2 m_coordinate;
 
 
     public List<PlacementCircle> Neighbors { get { return m_neighbors; } }
@@ -24,15 +25,13 @@ public class PlacementCircle : MonoBehaviour {
     /// Finds all neighboors and adds them to the list of neighboors.
     /// </summary>
     /// <returns></returns>
+    /// Could use Unit Test
     public List<PlacementCircle> FindNeighbors() {
         m_neighbors.Clear();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, m_radius);
 
         foreach (var pc in hitColliders) {
-            if (pc.GetComponent<PlacementCircle>() != this) m_neighbors.Add(pc.GetComponent<PlacementCircle>());
-        }
-        for (int i = 0; i < m_neighbors.Count; i++) {
-            if (m_neighbors[i] == null) m_neighbors.Remove(m_neighbors[i]);
+            if (!pc.GetComponent<PlacementCircle>().Equals(this)) m_neighbors.Add(pc.GetComponent<PlacementCircle>());
         }
         return new List<PlacementCircle>(m_neighbors);
     }
@@ -45,6 +44,7 @@ public class PlacementCircle : MonoBehaviour {
         m_renderer.enabled = false;
     }
 
+    //Needs Unit Test
     public bool PlacePiece(Player player) {
         if (m_piece || !m_piecePrefab) return false;
         m_piece = Instantiate(m_piecePrefab, transform.position, Quaternion.identity, transform);
@@ -52,5 +52,8 @@ public class PlacementCircle : MonoBehaviour {
         return true;
     }
 
+    public void UpdateCoordinates() {
+        m_coordinate = new Vector2(transform.position.x / 2, transform.position.y / 2);
+    }
     
 }
