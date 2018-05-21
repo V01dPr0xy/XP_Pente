@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 	/// <returns></returns>
 	public virtual bool PlacePiece()
 	{
+
 		throw new NotImplementedException();
 	}
 

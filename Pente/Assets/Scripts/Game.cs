@@ -11,7 +11,8 @@ public class Game : MonoBehaviour {
     [SerializeField] private Player m_player1;
     [SerializeField] private Player m_player2;
     [SerializeField] private Player m_playerAI;
-    [SerializeField] private Board m_board;
+    [SerializeField] public Board m_board;
+    [SerializeField] private UnityEngine.UI.Text m_winUI;
 
     [SerializeField] public Material[] m_Materials;
     public Player[] m_players = new Player[3];
@@ -84,6 +85,12 @@ public class Game : MonoBehaviour {
             }
         }
         m_highlightedCircle = circle;
+    }
+
+    public void PlayerWon() {
+        Time.timeScale = 0.0f;
+        m_winUI.text = m_currentPlayer.Name + " won!";
+        m_winUI.gameObject.SetActive(true);
     }
 
     private void SwitchPlayers() {

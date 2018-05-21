@@ -52,6 +52,9 @@ public class PlacementCircle : MonoBehaviour {
         if (m_piece || !m_piecePrefab) return false;
         m_piece = Instantiate(m_piecePrefab, transform.position, Quaternion.identity, transform);
         m_piece.Owner = player;
+        if (Board.CheckForWin(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x, (int)m_coordinate.y)) {
+            Game.m_instance.PlayerWon();
+        }
         return true;
     }
     public void Clear() {
