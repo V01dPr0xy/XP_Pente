@@ -24,6 +24,7 @@ public class Game : MonoBehaviour {
         m_instance = this;
         m_currentPlayer = m_player1;
     }
+
     /// <summary>
     /// 9x 39
     /// square and odd

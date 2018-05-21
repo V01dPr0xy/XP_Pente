@@ -22,7 +22,6 @@ public class Board : MonoBehaviour {
 
     [SerializeField] List<PlacementCircle> m_placementCircles;
     [SerializeField] List<BoardExtension> m_extensions = new List<BoardExtension>();
-    [SerializeField] [Range(9, 39)] private int m_size = 9;
     [SerializeField] Slider m_slider = null;
     [SerializeField] float m_baseCameraDistance = -10.0f;
 
