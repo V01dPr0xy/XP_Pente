@@ -4,14 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+[Serializable]
 public class Player : MonoBehaviour
 {
-	[SerializeField] Material m_pieceMaterial;
+    //[SerializeField] Material m_pieceMaterial;
+    [SerializeField] int m_pieceMaterial;
 	[SerializeField] TMP_InputField m_text;
 	[SerializeField] private int m_numberOfCaptures = 0;
 
 	public string Name { get { return m_text.text; } set { m_text.text = value; } }
-    public Material PieceMaterial { get { return m_pieceMaterial; } }
+    [SerializeField] public Material PieceMaterial { get { return Game.m_instance.m_Materials[m_pieceMaterial]; } }
 
     void Start()
 	{
