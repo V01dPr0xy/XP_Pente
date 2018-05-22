@@ -101,19 +101,18 @@ public class Board : MonoBehaviour {
     }
 
     public int[,] ToArray() {
-        m_boardArray = new int[(int)((m_slider.value * 2) + 7), (int)((m_slider.value * 2) + 7)];
+        m_boardArray = new int[((Convert.ToInt32(m_slider.value) * 2) + 7), ((Convert.ToInt32(m_slider.value) * 2) + 7)];
 
-        for (int i = 0; i < (int)((m_slider.value * 2) + 7); i++) {
-            for (int j = 0; j < (int)((m_slider.value * 2) + 7); j++) {
+        for (int i = 0; i < ((Convert.ToInt32(m_slider.value) * 2) + 7); i++) {
+            for (int j = 0; j < ((Convert.ToInt32(m_slider.value) * 2) + 7); j++) {
                 m_boardArray[i, j] = -1;
             }
         }
-		int offsetX = (int)((m_slider.value * 2) + 7) / 2;
-		int offsetY = (int)((m_slider.value * 2) + 7) / 2;
+		int offset = ((Convert.ToInt32(m_slider.value) * 2) + 7) / 2;
 
 		foreach (PlacementCircle item in m_placementCircles) {
             if (item.m_piece != null) {
-                m_boardArray[(int)item.m_coordinate.x + offsetX, Mathf.Abs((int)item.m_coordinate.y - offsetY)] = item.m_piece.Owner.ID;
+                m_boardArray[Convert.ToInt32(item.m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(item.m_coordinate.y) - offset)] = item.m_piece.Owner.ID;
             } //else m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = -1;
         }
 
