@@ -18,7 +18,7 @@ public class Game : MonoBehaviour {
     public Player[] m_players = new Player[3];
 
     private PlacementCircle m_highlightedCircle = null;
-    private Player m_currentPlayer = null;
+    public Player m_currentPlayer = null;
     private SaveData m_saveBoard = new SaveData();
 
     void Start() {

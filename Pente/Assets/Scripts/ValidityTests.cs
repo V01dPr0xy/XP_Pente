@@ -101,31 +101,85 @@ public class ValidityTests {
     }
     public static bool CheckForCaptureBottom(int[,] currentState, int x, int y) {
         int player = currentState[x, y];
-        if (y == 0) return false;
-        if (y + 1 == 0) return false;
-        if (y + 2 == 0) return false;
-        if (y + 3 == 0) return false;
+        int length = (int)Math.Sqrt(currentState.Length);
+        if (y == length) return false;
+        if (y + 1 == length) return false;
+        if (y + 2 == length) return false;
+        if (y + 3 == length) return false;
         if (!(currentState[x, y + 1] != player && currentState[x, y + 1] != -1)) return false;
         if (!(currentState[x, y + 2] != player && currentState[x, y + 2] != -1)) return false;
         if (currentState[x, y + 3] == player) return true;
         return false;
     }
     public static bool CheckForCaptureLeft(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+        if (x == 0) return false;
+        if (x - 1 == 0) return false;
+        if (x - 2 == 0) return false;
+        if (x - 3 == 0) return false;
+        if (!(currentState[x - 1, y] != player && currentState[x - 1, y] != -1)) return false;
+        if (!(currentState[x - 2, y] != player && currentState[x - 2, y] != -1)) return false;
+        if (currentState[x - 3, y] == player) return true;
         return false;
     }
     public static bool CheckForCaptureRight(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+        int length = (int)Math.Sqrt(currentState.Length);
+        if (x == length) return false;
+        if (x + 1 == length) return false;
+        if (x + 2 == length) return false;
+        if (x + 3 == length) return false;
+        if (!(currentState[x + 1, y] != player && currentState[x + 1, y] != -1)) return false;
+        if (!(currentState[x + 2, y] != player && currentState[x + 2, y] != -1)) return false;
+        if (currentState[x + 3, y] == player) return true;
         return false;
     }
     public static bool CheckForCaptureTopLeft(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+        int length = (int)Math.Sqrt(currentState.Length);
+        if (x == 0 || y == 0) return false;
+        if (x - 1 == 0 || y - 1 == 0) return false;
+        if (x - 2 == 0 || y - 2 == 0) return false;
+        if (x - 3 == 0 || y - 3 == 0) return false;
+        if (!(currentState[x - 1, y - 1] != player && currentState[x - 1, y - 1] != -1)) return false;
+        if (!(currentState[x - 2, y - 2] != player && currentState[x - 2, y - 2] != -1)) return false;
+        if (currentState[x - 3, y - 3] == player) return true;
         return false;
     }
     public static bool CheckForCaptureTopRight(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+        int length = (int)Math.Sqrt(currentState.Length);
+        if (x == length || y == 0) return false;
+        if (x + 1 == length || y - 1 == 0) return false;
+        if (x + 2 == length || y - 2 == 0) return false;
+        if (x + 3 == length || y - 3 == 0) return false;
+        if (!(currentState[x + 1, y - 1] != player && currentState[x + 1, y - 1] != -1)) return false;
+        if (!(currentState[x + 2, y - 2] != player && currentState[x + 2, y - 2] != -1)) return false;
+        if (currentState[x + 3, y - 3] == player) return true;
         return false;
     }
     public static bool CheckForCaptureBottomRight(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+        int length = (int)Math.Sqrt(currentState.Length);
+        if (x == length || y == length) return false;
+        if (x + 1 == length || y + 1 == length) return false;
+        if (x + 2 == length || y + 2 == length) return false;
+        if (x + 3 == length || y + 3 == length) return false;
+        if (!(currentState[x + 1, y + 1] != player && currentState[x + 1, y + 1] != -1)) return false;
+        if (!(currentState[x + 2, y + 2] != player && currentState[x + 2, y + 2] != -1)) return false;
+        if (currentState[x + 3, y + 3] == player) return true;
         return false;
     }
     public static bool CheckForCaptureBottomLeft(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+        int length = (int)Math.Sqrt(currentState.Length);
+        if (x == 0 || y == length) return false;
+        if (x - 1 == 0 || y + 1 == length) return false;
+        if (x - 2 == 0 || y + 2 == length) return false;
+        if (x - 3 == 0 || y + 3 == length) return false;
+        if (!(currentState[x - 1, y + 1] != player && currentState[x - 1, y + 1] != -1)) return false;
+        if (!(currentState[x - 2, y + 2] != player && currentState[x - 2, y + 2] != -1)) return false;
+        if (currentState[x - 3, y + 3] == player) return true;
         return false;
     }
 }
