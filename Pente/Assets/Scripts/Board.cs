@@ -22,7 +22,7 @@ public class Board : MonoBehaviour {
 
     [SerializeField] List<PlacementCircle> m_placementCircles;
     [SerializeField] List<BoardExtension> m_extensions = new List<BoardExtension>();
-    [SerializeField] Slider m_slider = null;
+    [SerializeField] public Slider m_slider = null;
     [SerializeField] float m_baseCameraDistance = -10.0f;
     [SerializeField] int[,] m_boardArray;
 
@@ -105,11 +105,11 @@ public class Board : MonoBehaviour {
                 m_boardArray[i, j] = -1;
             }
         }
-        int offset = ((int)((m_slider.value * 2) + 7)) /2 ;
+        int offset = ((int)((m_slider.value * 2) + 7)) / 2 ;
 
         foreach (PlacementCircle item in m_placementCircles) {
             if (item.m_piece != null) {
-                m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = item.m_piece.Owner.ID;
+                m_boardArray[(int)item.m_coordinate.x + offset, Mathf.Abs((int)item.m_coordinate.y - offset)] = item.m_piece.Owner.ID;
             } //else m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = -1;
         }
 
