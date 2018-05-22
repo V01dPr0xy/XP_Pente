@@ -94,6 +94,9 @@ public class Board : MonoBehaviour {
         foreach (var circle in m_placementCircles) {
             circle.UpdateCoordinates();
         }
+        foreach (var circle in m_placementCircles) {
+            circle.UpdateNeighborReferences();
+        }
 
     }
 
@@ -105,7 +108,7 @@ public class Board : MonoBehaviour {
                 m_boardArray[i, j] = -1;
             }
         }
-        int offset = ((int)((m_slider.value * 2) + 7)) / 2 ;
+        int offset = ((int)((m_slider.value * 2) + 7)) / 2;
 
         foreach (PlacementCircle item in m_placementCircles) {
             if (item.m_piece != null) {

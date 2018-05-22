@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] int m_id;
     [SerializeField] int m_pieceMaterial;
 	[SerializeField] TMP_InputField m_text;
-	[SerializeField] private int m_numberOfCaptures = 0;
+	[SerializeField] public int m_numberOfCaptures = 0;
 
 	public string Name { get { return m_text.text; } set { m_text.text = value; } }
     [SerializeField] public Material PieceMaterial { get { return Game.m_instance.m_Materials[m_pieceMaterial]; } }

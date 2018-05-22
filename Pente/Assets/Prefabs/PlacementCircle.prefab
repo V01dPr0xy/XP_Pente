@@ -2296,7 +2296,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61afaf07caceaad42b667a70d594f530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_radius: 2
+  m_radius: 2.4
   m_neighbors: []
+  m_leftNeighbor: {fileID: 0}
+  m_rightNeighbor: {fileID: 0}
+  m_topNeighbor: {fileID: 0}
+  m_bottomNeighbor: {fileID: 0}
+  m_topLeftNeighbor: {fileID: 0}
+  m_topRightNeighbor: {fileID: 0}
+  m_bottomLeftNeighbor: {fileID: 0}
+  m_bottomRightNeighbor: {fileID: 0}
   m_piecePrefab: {fileID: 114146525069417396, guid: 05ac758b5ccc80848a4ecb7484dedd8f,
     type: 2}
+  m_coordinate: {x: 0, y: 0}
+  m_piece: {fileID: 0}

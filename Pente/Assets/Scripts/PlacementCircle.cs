@@ -8,6 +8,17 @@ public class PlacementCircle : MonoBehaviour {
 
     [SerializeField] private float m_radius = 1.5f;
     [SerializeField] private List<PlacementCircle> m_neighbors = new List<PlacementCircle>();
+
+    [SerializeField] PlacementCircle m_leftNeighbor;
+    [SerializeField] PlacementCircle m_rightNeighbor;
+    [SerializeField] PlacementCircle m_topNeighbor;
+    [SerializeField] PlacementCircle m_bottomNeighbor;
+
+    [SerializeField] PlacementCircle m_topLeftNeighbor;
+    [SerializeField] PlacementCircle m_topRightNeighbor;
+    [SerializeField] PlacementCircle m_bottomLeftNeighbor;
+    [SerializeField] PlacementCircle m_bottomRightNeighbor;
+
     [SerializeField] private Piece m_piecePrefab = null;
     [SerializeField] public Vector2 m_coordinate;
 
@@ -28,6 +39,7 @@ public class PlacementCircle : MonoBehaviour {
     /// <returns></returns>
     /// Could use Unit Test
     public List<PlacementCircle> FindNeighbors() {
+        UpdateCoordinates();
         m_neighbors.Clear();
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, m_radius);
 
@@ -36,7 +48,55 @@ public class PlacementCircle : MonoBehaviour {
                 if (!pc.GetComponent<PlacementCircle>().Equals(this))
                     m_neighbors.Add(pc.GetComponent<PlacementCircle>());
         }
+
         return new List<PlacementCircle>(m_neighbors);
+    }
+
+    public void UpdateNeighborReferences() {
+        foreach (PlacementCircle item in m_neighbors) {
+            item.UpdateCoordinates();
+            Vector2 direction = item.m_coordinate - m_coordinate;
+            switch ((int)direction.x) {
+                case -1:
+                    switch ((int)direction.y) {
+                        case -1:
+                            m_bottomLeftNeighbor = item;
+                            break;
+                        case 0:
+                            m_leftNeighbor = item;
+                            break;
+                        case 1:
+                            m_topLeftNeighbor = item;
+                            break;
+                    }
+                    break;
+                case 0:
+                    switch ((int)direction.y) {
+                        case -1:
+                            m_bottomNeighbor = item;
+                            break;
+                        case 0:
+                        //throw new Exception();
+                        case 1:
+                            m_topNeighbor = item;
+                            break;
+                    }
+                    break;
+                case 1:
+                    switch ((int)direction.y) {
+                        case -1:
+                            m_bottomRightNeighbor = item;
+                            break;
+                        case 0:
+                            m_rightNeighbor = item;
+                            break;
+                        case 1:
+                            m_topRightNeighbor = item;
+                            break;
+                    }
+                    break;
+            }
+        }
     }
 
     public void Highlight() {
@@ -56,10 +116,58 @@ public class PlacementCircle : MonoBehaviour {
         if (ValidityTests.CheckForWin(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
             Game.m_instance.PlayerWon();
         }
+
+        //Check and make captures
+
+        if (ValidityTests.CheckForCaptureTop(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_topNeighbor.m_topNeighbor.Clear();
+            m_topNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+
+        if (ValidityTests.CheckForCaptureBottom(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_bottomNeighbor.m_bottomNeighbor.Clear();
+            m_bottomNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+
+        if (ValidityTests.CheckForCaptureLeft(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_leftNeighbor.m_leftNeighbor.Clear();
+            m_leftNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+
+        if (ValidityTests.CheckForCaptureRight(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_rightNeighbor.m_rightNeighbor.Clear();
+            m_rightNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+        //Diagonals
+        if (ValidityTests.CheckForCaptureBottomLeft(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_bottomLeftNeighbor.m_bottomLeftNeighbor.Clear();
+            m_bottomLeftNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+        if (ValidityTests.CheckForCaptureBottomRight(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_bottomRightNeighbor.m_bottomRightNeighbor.Clear();
+            m_bottomRightNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+        if (ValidityTests.CheckForCaptureTopLeft(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_topLeftNeighbor.m_topLeftNeighbor.Clear();
+            m_topLeftNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+        if (ValidityTests.CheckForCaptureTopRight(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            m_topRightNeighbor.m_topRightNeighbor.Clear();
+            m_topRightNeighbor.Clear();
+            Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
+        }
+
         return true;
     }
     public void Clear() {
-        if (m_piece != null){
+        if (m_piece != null) {
             Destroy(m_piece.gameObject);
         }
         m_piece = null;
