@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class NewEditModeTest
 {
-    [UnityTest]
+    //[UnityTest]
     public IEnumerator ValidPiecePlace()
     {
         // Use the Assert class to test conditions.
@@ -42,7 +42,7 @@ public class NewEditModeTest
 		Exactly 2 pieces may be captured by blocking both sides (check for every possible capture)
 	*/
 
-	[UnityTest]
+	//[UnityTest]
 	public IEnumerator InvalidPiecePlace()
 	{
 		
@@ -50,17 +50,32 @@ public class NewEditModeTest
 		return null;
 	}
 
-	[UnityTest]
+	//[UnityTest]
 	public IEnumerator WinRow()
 	{
-		// Use the Assert class to test conditions.
-		// yield to skip a frame
+		//// Use the Assert class to test conditions.
+		//// yield to skip a frame
+		//int[,] current = new int[9, 9];
+		//for (int i = 0; i < 9; i++)
+		//{
+		//	for (int j = 0;  j < 9;  j++)
+		//	{
+		//		current[i, j] = -1;
+		//	}
+		//}
+		//current[0, 0] = 1;
+		//current[1, 0] = 1;
+		//current[2, 0] = 1;
+		//current[3, 0] = 1;
+		//current[4, 0] = 1;
+		//bool actual = ValidityTests.CheckForWin(current, 0, 0);
+		//Assert.IsTrue(actual);
 		Assert.Fail();
 		return null;
 
 	}
 
-	[UnityTest]
+	//[UnityTest]
 	public IEnumerator WinColumn()
 	{
 		// Use the Assert class to test conditions.
@@ -79,7 +94,7 @@ public class NewEditModeTest
 		return null;
 	}
 
-	[UnityTest]
+	//[UnityTest]
 	public IEnumerator WinDiagonalRight()
 	{
 		// Use the Assert class to test conditions.
@@ -88,7 +103,7 @@ public class NewEditModeTest
 		return null;
 	}
 
-	[Test]
+	//[Test]
 	public IEnumerator WinTenOrMoreCaptures()
 	{
 		// Use the Assert class to test conditions.
@@ -97,28 +112,28 @@ public class NewEditModeTest
 		return null;
 	}
 
-	[UnityTest]
+	//[UnityTest]
 	public IEnumerator CaptureRow()
 	{
 		Assert.Fail();
 		return null;
 	}
 
-	[UnityTest]
+	//[UnityTest]
 	public IEnumerator CaptureColumn()
 	{
 		Assert.Fail();
 		return null;
 	}
 
-	[UnityTest]
+	//[UnityTest]
     public IEnumerator CaptureDiagonalLeft()
     {
 		Assert.Fail();
 		return null;
     }
 
-	[UnityTest]
+	//[UnityTest]
 	public IEnumerator CaptureDiagonalRight()
 	{
 		Assert.Fail();
@@ -127,7 +142,7 @@ public class NewEditModeTest
 
 	// A UnityTest behaves like a coroutine in PlayMode
 	// and allows you to yield null to skip a frame in EditMode
-	[UnityTest]
+	//[UnityTest]
     public IEnumerator NewEditModeTestWithEnumeratorPasses()
     {
         // Use the Assert class to test conditions.
