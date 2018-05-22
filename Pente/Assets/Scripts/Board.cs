@@ -26,15 +26,22 @@ public class Board : MonoBehaviour {
     [SerializeField] float m_baseCameraDistance = -10.0f;
     [SerializeField] int[,] m_boardArray;
 
+	public int size;
+
 
     public List<PlacementCircle> PlacementCircles { get { return m_placementCircles; } set { m_placementCircles = value; } }
 
     private void Start() {
         m_placementCircles = new List<PlacementCircle>(GetComponentsInChildren<PlacementCircle>());
         CenterBoard();
-    }
 
-    public SaveData.BoardData GetSaveData() {
+		Menu.m_instance.boardSize.text = (((System.Convert.ToInt32(Game.m_instance.m_board.m_slider.value) * 2) + 7)) + " x " + (((System.Convert.ToInt32(Game.m_instance.m_board.m_slider.value) * 2) + 7));
+
+	}
+
+
+
+	public SaveData.BoardData GetSaveData() {
         SaveData.BoardData save = new SaveData.BoardData();
         List<SaveData.PlacementCircleData> circles = new List<SaveData.PlacementCircleData>();
 
@@ -71,7 +78,7 @@ public class Board : MonoBehaviour {
     /// Sets Board Position and Size Based on m_slider.value
     /// </summary>
     public void CenterBoard() {
-        int size = (int)((m_slider.value * 2) + 7);
+        size = (int)((Convert.ToInt32(m_slider.value) * 2) + 7);
         transform.position = Vector3.zero;
         //sets the base distance the camera needs to be at to see the full board at minimum size
         Vector3 cameraPos = Camera.main.transform.position;
@@ -98,6 +105,7 @@ public class Board : MonoBehaviour {
             circle.UpdateNeighborReferences();
         }
 
+		//Menu.m_instance.ViewSliderValue();
     }
 
     public int[,] ToArray() {

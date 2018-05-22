@@ -61,7 +61,7 @@ public class SaveData {
     }
 
 
-
+	public string Id;
     public eTypes.eMode mode;
     public PlayerData currentPlayer;
     public PlayerData player1;
