@@ -60,7 +60,7 @@ public class Board : MonoBehaviour {
             foreach (SaveData.PlacementCircleData saved in save.placementCircles) {
                 if (current.m_coordinate.x == saved.coordinate.x &&
                     current.m_coordinate.y == saved.coordinate.y) {
-                    if (saved.ownerId != -1) current.PlacePiece(Game.m_instance.m_players[saved.ownerId]);
+                    if (saved.ownerId != -1) current.PlacePieceForSave(Game.m_instance.m_players[saved.ownerId]);
                     break;
                 }
             }
@@ -108,91 +108,15 @@ public class Board : MonoBehaviour {
                 m_boardArray[i, j] = -1;
             }
         }
-        int offset = ((int)((m_slider.value * 2) + 7)) / 2;
+		int offsetX = (int)((m_slider.value * 2) + 7) / 2;
+		int offsetY = (int)((m_slider.value * 2) + 7) / 2;
 
-        foreach (PlacementCircle item in m_placementCircles) {
+		foreach (PlacementCircle item in m_placementCircles) {
             if (item.m_piece != null) {
-                m_boardArray[(int)item.m_coordinate.x + offset, Mathf.Abs((int)item.m_coordinate.y - offset)] = item.m_piece.Owner.ID;
+                m_boardArray[(int)item.m_coordinate.x + offsetX, Mathf.Abs((int)item.m_coordinate.y - offsetY)] = item.m_piece.Owner.ID;
             } //else m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = -1;
         }
 
         return m_boardArray;
-    }
-
-    public static bool CheckForWin(int[,] currentState, int x, int y) {
-
-        int player = currentState[x, y];
-
-        int top = 0;
-        bool continueTop = true;
-        int bottom = 0;
-        bool continueBottom = true;
-        int left = 0;
-        bool continueLeft = true;
-        int right = 0;
-        bool continueRight = true;
-
-
-        int topLeft = 0;
-        bool continueTopLeft = true;
-        int topRight = 0;
-        bool continueTopRight = true;
-        int bottomLeft = 0;
-        bool continueBottomLeft = true;
-        int bottomRight = 0;
-        bool continueBottomRight = true;
-
-        for (int i = 1; i < 5; i++) {
-            //Right
-            if (x - i >= 0 && continueRight) {
-                if (currentState[x - i, y] == player) right++;
-                else continueRight = false;
-            }
-            //Left
-            if (x + i < currentState.Length && continueLeft) {
-                if (currentState[x + i, y] == player) left++;
-                else continueLeft = false;
-            }
-            if (left + right + 1 >= 5) return true;
-            //Top
-            if (y - i >= 0 && continueTop) {
-                if (currentState[x, y - i] == player) top++;
-                else continueTop = false;
-            }
-            //Bottom
-            if (y + i < currentState.Length && continueBottom) {
-                if (currentState[x, y + i] == player) bottom++;
-                else continueBottom = false;
-            }
-            if (top + bottom + 1 >= 5) return true;
-
-            //Diagonals
-            //Top Right
-            if (x + i < currentState.Length && y - i >= 0 && continueTopRight) {
-                if (currentState[x + i, y - i] == player) topRight++;
-                else continueTopRight = false;
-            }
-            //Bottom Left
-            if (x - i >= 0 && y + i < currentState.Length && continueBottomLeft) {
-                if (currentState[x - i, y + i] == player) bottomLeft++;
-                else continueBottomLeft = false;
-            }
-            if (topRight + bottomLeft + 1 >= 5) return true;
-
-            //Top Left
-            if (x - i >= 0 && y - i >= 0 && continueTopLeft) {
-                if (currentState[x - i, y - i] == player) top++;
-                else continueTop = false;
-            }
-            //Bottom Right
-            if (x + i < currentState.Length && y + i < currentState.Length && continueBottomRight) {
-                if (currentState[x + i, y + i] == player) bottom++;
-                else continueBottom = false;
-            }
-            if (topLeft + bottomRight + 1 >= 5) return true;
-
-        }
-
-        return false;
     }
 }

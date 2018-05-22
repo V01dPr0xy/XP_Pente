@@ -65,7 +65,7 @@ public class Game : MonoBehaviour {
             m_player2.LoadSaveData(m_saveBoard.player2);// = m_saveBoard.m_player2;
             m_playerAI.LoadSaveData(m_saveBoard.playerAI);// = m_saveBoard.m_playerAI;
             m_currentPlayer = m_players[m_saveBoard.currentPlayer.id];
-            
+			m_winUI.gameObject.SetActive(false);
 
             m_mode = m_saveBoard.mode;
         }
