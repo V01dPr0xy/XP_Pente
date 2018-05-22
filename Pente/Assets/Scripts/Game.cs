@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using eTypes;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class Game : MonoBehaviour {
     public static Game m_instance;
@@ -9,14 +11,25 @@ public class Game : MonoBehaviour {
     [SerializeField] private Player m_player1;
     [SerializeField] private Player m_player2;
     [SerializeField] private Player m_playerAI;
+    [SerializeField] public Board m_board;
+    [SerializeField] private UnityEngine.UI.Text m_winUI;
+
+    [SerializeField] public Material[] m_Materials;
+    public Player[] m_players = new Player[3];
 
     private PlacementCircle m_highlightedCircle = null;
     private Player m_currentPlayer = null;
+    private SaveData m_saveBoard = new SaveData();
 
     void Start() {
         m_instance = this;
         m_currentPlayer = m_player1;
+
+        m_players[0] = m_player1;
+        m_players[1] = m_player2;
+        m_players[2] = m_playerAI;
     }
+
     /// <summary>
     /// 9x 39
     /// square and odd
@@ -26,6 +39,37 @@ public class Game : MonoBehaviour {
     /// save load
     /// menu should pause timer/game
     /// </summary>
+
+    public void Save() {
+        m_saveBoard.currentBoard = m_board.GetSaveData();
+        m_saveBoard.currentPlayer = m_currentPlayer.GetSaveData();
+        m_saveBoard.player1 = m_player1.GetSaveData();
+        m_saveBoard.player2 = m_player2.GetSaveData();
+        m_saveBoard.playerAI = m_playerAI.GetSaveData();
+        m_saveBoard.mode = m_mode;
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "testSave.dat");
+        bf.Serialize(file, m_saveBoard);
+        file.Close();
+    }
+
+
+    public void Load() {
+        if (File.Exists(Application.persistentDataPath + "testSave.dat")) {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "testSave.dat", FileMode.Open);
+            m_saveBoard = (SaveData)bf.Deserialize(file);
+            file.Close();
+            m_board.LoadSaveData(m_saveBoard.currentBoard);// = m_saveBoard.m_currentBoard;
+            m_player1.LoadSaveData(m_saveBoard.player1);// = m_saveBoard.m_player1;
+            m_player2.LoadSaveData(m_saveBoard.player2);// = m_saveBoard.m_player2;
+            m_playerAI.LoadSaveData(m_saveBoard.playerAI);// = m_saveBoard.m_playerAI;
+            m_currentPlayer = m_players[m_saveBoard.currentPlayer.id];
+            
+
+            m_mode = m_saveBoard.mode;
+        }
+    }
 
     void Update() {
         PlacementCircle circle = null;
@@ -41,6 +85,12 @@ public class Game : MonoBehaviour {
             }
         }
         m_highlightedCircle = circle;
+    }
+
+    public void PlayerWon() {
+        Time.timeScale = 0.0f;
+        m_winUI.text = m_currentPlayer.Name + " won!";
+        m_winUI.gameObject.SetActive(true);
     }
 
     private void SwitchPlayers() {

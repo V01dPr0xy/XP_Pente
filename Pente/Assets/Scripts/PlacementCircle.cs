@@ -3,17 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class PlacementCircle : MonoBehaviour {
 
     [SerializeField] private float m_radius = 1.5f;
     [SerializeField] private List<PlacementCircle> m_neighbors = new List<PlacementCircle>();
     [SerializeField] private Piece m_piecePrefab = null;
-    [SerializeField] private Vector2 m_coordinate;
+    [SerializeField] public Vector2 m_coordinate;
 
 
     public List<PlacementCircle> Neighbors { get { return m_neighbors; } }
     private MeshRenderer m_renderer = null;
-    private Piece m_piece = null;
+    public Piece m_piece = null;
 
     void Start() {
         m_renderer = GetComponent<MeshRenderer>();
@@ -31,7 +32,9 @@ public class PlacementCircle : MonoBehaviour {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, m_radius);
 
         foreach (var pc in hitColliders) {
-            if (!pc.GetComponent<PlacementCircle>().Equals(this)) m_neighbors.Add(pc.GetComponent<PlacementCircle>());
+            if (pc.GetComponent<PlacementCircle>() != null)
+                if (!pc.GetComponent<PlacementCircle>().Equals(this))
+                    m_neighbors.Add(pc.GetComponent<PlacementCircle>());
         }
         return new List<PlacementCircle>(m_neighbors);
     }
@@ -49,11 +52,21 @@ public class PlacementCircle : MonoBehaviour {
         if (m_piece || !m_piecePrefab) return false;
         m_piece = Instantiate(m_piecePrefab, transform.position, Quaternion.identity, transform);
         m_piece.Owner = player;
+        int offset = ((int)((Game.m_instance.m_board.m_slider.value * 2) + 7)) / 2;
+        if (ValidityTests.CheckForWin(Game.m_instance.m_board.ToArray(), (int)m_coordinate.x + offset, Mathf.Abs((int)m_coordinate.y - offset))) {
+            Game.m_instance.PlayerWon();
+        }
         return true;
+    }
+    public void Clear() {
+        if (m_piece != null){
+            Destroy(m_piece.gameObject);
+        }
+        m_piece = null;
     }
 
     public void UpdateCoordinates() {
         m_coordinate = new Vector2(transform.position.x / 2, transform.position.y / 2);
     }
-    
+
 }
