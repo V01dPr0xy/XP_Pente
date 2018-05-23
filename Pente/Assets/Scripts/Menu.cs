@@ -12,7 +12,14 @@ public class Menu : MonoBehaviour {
 
 	[SerializeField] GameObject titleMenu;
 	[SerializeField] GameObject gameMenu;
+	[SerializeField] GameObject saveMenu;
+
 	[SerializeField] public TextMeshProUGUI boardSize;
+
+	[SerializeField] public TMP_InputField m_newSaveInput;
+	[SerializeField] public TMP_Dropdown m_existingSaves;
+	[SerializeField] GameObject m_warning;
+
 	public static Menu m_instance;
 
 	private void Start()
@@ -28,7 +35,22 @@ public class Menu : MonoBehaviour {
 		Time.timeScale = 0.0f;
 
 	}
+	public void ReturnToTitle()
+	{
+		titleMenu.SetActive(true);
+		gameMenu.SetActive(false);
+		Time.timeScale = 0.0f;
+		Game.m_instance.isPlayingGame = false;
+	}
 
+	public void OpenSaveMenu()
+	{
+		titleMenu.SetActive(true);
+		gameMenu.SetActive(false);
+		m_warning.SetActive(false);
+		Time.timeScale = 0.0f;
+		Game.m_instance.isPlayingGame = false;
+	}
 
 	public void ChoosePVE()
 	{
@@ -47,6 +69,46 @@ public class Menu : MonoBehaviour {
 
 
 	}
+
+	public void SaveNewFile()
+	{
+		string saveId = m_newSaveInput.text;
+
+		bool valid = true;
+		foreach (SaveData item in m_saves)
+		{
+			if (item.Id.Equals(saveId)) valid = false;
+		}
+
+		if (valid)
+		{
+			m_warning.SetActive(false);
+
+			CreateNewSave(saveId);
+		}
+		else
+		{
+			m_warning.SetActive(true);
+		}
+	}
+
+	public void OverwriteFile()
+	{
+		string saveId = m_existingSaves.options[m_existingSaves.value].text;
+		SaveData file = new SaveData();
+
+		foreach (SaveData item in m_saves)
+		{
+			if (saveId.Equals(item.Id))
+			{
+				file = item;
+			}
+		}
+
+		m_saves.Remove(file);
+		CreateNewSave(file);
+	}
+
 	public void Save()
 	{
 		BinaryFormatter bf = new BinaryFormatter();
@@ -55,9 +117,10 @@ public class Menu : MonoBehaviour {
 		file.Close();
 	}
 
-	public void CreateNewSave()
+	public void CreateNewSave(string id)
 	{
 		SaveData saveBoard = new SaveData();
+		saveBoard.Id = id;
 		saveBoard.currentBoard = Game.m_instance.m_board.GetSaveData();
 		saveBoard.currentPlayer = Game.m_instance.m_currentPlayer.GetSaveData();
 		saveBoard.player1 = Game.m_instance.m_player1.GetSaveData();
@@ -65,6 +128,18 @@ public class Menu : MonoBehaviour {
 		saveBoard.playerAI = Game.m_instance.m_playerAI.GetSaveData();
 		saveBoard.mode = Game.m_instance.m_mode;
 		m_saves.Add(saveBoard);
+		Save();
+	}
+
+	public void CreateNewSave(SaveData existingSave)
+	{
+		existingSave.currentBoard = Game.m_instance.m_board.GetSaveData();
+		existingSave.currentPlayer = Game.m_instance.m_currentPlayer.GetSaveData();
+		existingSave.player1 = Game.m_instance.m_player1.GetSaveData();
+		existingSave.player2 = Game.m_instance.m_player2.GetSaveData();
+		existingSave.playerAI = Game.m_instance.m_playerAI.GetSaveData();
+		existingSave.mode = Game.m_instance.m_mode;
+		m_saves.Add(existingSave);
 		Save();
 	}
 
