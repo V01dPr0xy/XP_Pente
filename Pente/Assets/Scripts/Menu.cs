@@ -53,6 +53,7 @@ using TMPro;
 		public void ReturnToTitle()
 		{
 			Game.m_instance.m_board.ClearBoard();
+			Game.m_instance.m_currentPlayer = Game.m_instance.m_player1;
 			LoadOptionDropdowns();
 			titleMenu.SetActive(true);
 			gameMenu.SetActive(false);

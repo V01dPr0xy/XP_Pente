@@ -222,29 +222,29 @@ public class ValidityTests
 		//Finds number in a row
 		for (int i = 1; i < 5; i++)
 		{
-			//Right
-			if (x - i >= 0 && continueRight)
+			//left
+			if (x - i >= 0 && continueLeft)
 			{
-				if (currentState[x - i, y] == player) right++;
-				else continueRight = false;
-			}
-			//Left
-			if (x + i < length && continueLeft)
-			{
-				if (currentState[x + i, y] == player) left++;
+				if (currentState[x - i, y] == player) left++;
 				else continueLeft = false;
+			}
+			//right
+			if (x + i < length && continueRight)
+			{
+				if (currentState[x + i, y] == player) right++;
+				else continueRight = false;
 			}
 
 		}
-
+		bool valid = false;
 		if (left + right + 1 == 3)
 		{
 			//checks end pieces
 			if (x - left > 0)
 			{
-				if (currentState[x - left - 1, y] == -1) return true;
+				if (currentState[x - left - 1, y] == -1) valid = true;
 			}
-			if (x + right < length - 1)
+			if (valid && x + right < length - 1)
 			{
 				if (currentState[x + right + 1, y] == -1) return true;
 			}
@@ -281,14 +281,16 @@ public class ValidityTests
 				else {	continueBottom = false;	}
 			}
 		}
+
+		bool valid = false;
 		if (top + bottom + 1 == 3)
 		{
 			//checks end pieces
 			if (y - top > 0)
 			{
-				if (currentState[x, y - top - 1] == -1) return true;
+				if (currentState[x, y - top - 1] == -1) valid = true;
 			}
-			if (y + bottom < length - 1)
+			if (valid && y + bottom < length - 1)
 			{
 				if (currentState[x, y + bottom + 1] == -1) return true;
 			}
@@ -322,14 +324,15 @@ public class ValidityTests
 				else continueBottomLeft = false;
 			}
 		}
+		bool valid = false;
 		if (topRight + bottomLeft + 1 == 3)
 		{
 			//checks end pieces
 			if (y - topRight > 0 && x + topRight < length -1)
 			{
-				if (currentState[x + topRight + 1, y - topRight - 1] == -1) return true;
+				if (currentState[x + topRight + 1, y - topRight - 1] == -1) valid = true;
 			}
-			if (y + bottomLeft < length - 1 && x - bottomLeft > 0)
+			if (valid && y + bottomLeft < length - 1 && x - bottomLeft > 0)
 			{
 				if (currentState[x - bottomLeft - 1, y + bottomLeft + 1] == -1) return true;
 			}
@@ -363,15 +366,15 @@ public class ValidityTests
 				else continueBottomRight = false;
 			}
 		}
-
+		bool valid = false;
 		if (topLeft + bottomRight + 1 == 3)
 		{
 			//checks end pieces
 			if (y - topLeft > 0 && x - topLeft > 0)
 			{
-				if (currentState[x - topLeft - 1, y - topLeft - 1] == -1) return true;
+				if (currentState[x - topLeft - 1, y - topLeft - 1] == -1) valid = true;
 			}
-			if (y + bottomRight < length - 1 && x + bottomRight < length - 1)
+			if (valid && y + bottomRight < length - 1 && x + bottomRight < length - 1)
 			{
 				if (currentState[x + bottomRight + 1, y + bottomRight + 1] == -1) return true;
 			}
