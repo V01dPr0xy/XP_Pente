@@ -63,6 +63,7 @@ public class Board : MonoBehaviour {
         foreach (var item in m_placementCircles) {
             item.Clear();
         }
+		if (save.placementCircles != null)
         foreach (PlacementCircle current in m_placementCircles) {
             foreach (SaveData.PlacementCircleData saved in save.placementCircles) {
                 if (current.m_coordinate.x == saved.coordinate.x &&

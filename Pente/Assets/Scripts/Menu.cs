@@ -8,7 +8,9 @@ using TMPro;
 public class Menu : MonoBehaviour {
 
 	List<SaveData> m_saves = new List<SaveData>();
-	[SerializeField] TMP_Dropdown m_savesList;
+	[SerializeField] TMP_Dropdown m_savesListTitleMenu;
+	[SerializeField] TMP_Dropdown m_savesListSaveMenu;
+
 
 	[SerializeField] GameObject titleMenu;
 	[SerializeField] GameObject gameMenu;
@@ -20,35 +22,49 @@ public class Menu : MonoBehaviour {
 	[SerializeField] public TMP_Dropdown m_existingSaves;
 	[SerializeField] GameObject m_warning;
 
+	[SerializeField] public GameObject triaDetectedPlayer1;
+
+
 	public static Menu m_instance;
 
 	private void Start()
 	{
 		LoadFromFile();
 		m_instance = this;
-		List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
-		foreach (SaveData item in m_saves)
-		{
-			options.Add(new TMP_Dropdown.OptionData(item.ToString()));
-		}
-		m_savesList.AddOptions(options);
+		LoadOptionDropdowns();
 		Time.timeScale = 0.0f;
+		m_warning.SetActive(false);
+		triaDetectedPlayer1.SetActive(false);
+		
 
 	}
 	public void ReturnToTitle()
 	{
+		LoadOptionDropdowns();
 		titleMenu.SetActive(true);
 		gameMenu.SetActive(false);
 		Time.timeScale = 0.0f;
 		Game.m_instance.isPlayingGame = false;
+		m_warning.SetActive(false);
+		triaDetectedPlayer1.SetActive(false);
+
+	}
+	public void ReturnToGame()
+	{
+		titleMenu.SetActive(false);
+		saveMenu.SetActive(false);
+		gameMenu.SetActive(true);
+		Time.timeScale = 1.0f;
+		Game.m_instance.isPlayingGame = true;
 	}
 
 	public void OpenSaveMenu()
 	{
-		titleMenu.SetActive(true);
+		LoadOptionDropdowns();
+		saveMenu.SetActive(true);
 		gameMenu.SetActive(false);
 		m_warning.SetActive(false);
-		Time.timeScale = 0.0f;
+		//Time.timeScale = 0.0f;
 		Game.m_instance.isPlayingGame = false;
 	}
 
@@ -67,6 +83,18 @@ public class Menu : MonoBehaviour {
 		Time.timeScale = 1.0f;
 		Game.m_instance.isPlayingGame = true;
 
+	}
+
+	public void LoadOptionDropdowns()
+	{
+		LoadFromFile();
+		List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+		foreach (SaveData item in m_saves)
+		{
+			options.Add(new TMP_Dropdown.OptionData(item.ToString()));
+		}
+		m_savesListTitleMenu.AddOptions(options);
+		m_savesListSaveMenu.AddOptions(options);
 
 	}
 
@@ -85,11 +113,13 @@ public class Menu : MonoBehaviour {
 			m_warning.SetActive(false);
 
 			CreateNewSave(saveId);
+			LoadOptionDropdowns();
 		}
 		else
 		{
 			m_warning.SetActive(true);
 		}
+
 	}
 
 	public void OverwriteFile()
@@ -156,7 +186,7 @@ public class Menu : MonoBehaviour {
 
 	public void Load()
 	{
-		if (m_savesList.options.Count != 0)
+		if (m_savesListTitleMenu.options.Count != 0)
 		{
 			string heck = "";
 			LoadFromFile();
@@ -173,7 +203,9 @@ public class Menu : MonoBehaviour {
 			Game.m_instance.m_currentPlayer = Game.m_instance.m_players[currentSave.currentPlayer.id];
 			Game.m_instance.m_mode = currentSave.mode;
 			Game.m_instance.m_winUI.gameObject.SetActive(false);
+			ReturnToGame();
 		}
+
 	}
 
 	public void UpdateBoardSizeValue()

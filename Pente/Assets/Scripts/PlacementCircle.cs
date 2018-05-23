@@ -130,19 +130,16 @@ public class PlacementCircle : MonoBehaviour {
             m_topNeighbor.Clear();
             Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
         }
-
         if (ValidityTests.CheckForCaptureBottom(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))) {
             m_bottomNeighbor.m_bottomNeighbor.Clear();
             m_bottomNeighbor.Clear();
             Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
         }
-
         if (ValidityTests.CheckForCaptureLeft(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))) {
             m_leftNeighbor.m_leftNeighbor.Clear();
             m_leftNeighbor.Clear();
             Game.m_instance.m_currentPlayer.m_numberOfCaptures++;
         }
-
         if (ValidityTests.CheckForCaptureRight(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))) {
             m_rightNeighbor.m_rightNeighbor.Clear();
             m_rightNeighbor.Clear();
@@ -171,6 +168,16 @@ public class PlacementCircle : MonoBehaviour {
         }
 
         if (Game.m_instance.m_currentPlayer.m_numberOfCaptures >= 5) Game.m_instance.PlayerWon();
+
+		//Check for Trias
+
+		if (ValidityTests.CheckForTriaHorizontal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))
+			|| ValidityTests.CheckForTriaVertical(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))
+			|| ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))
+			|| ValidityTests.CheckForTriaTopRightToBottomLeftDiagonal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset)))
+		{
+			Menu.m_instance.triaDetectedPlayer1.SetActive(true);
+		}
 
         return true;
     }
