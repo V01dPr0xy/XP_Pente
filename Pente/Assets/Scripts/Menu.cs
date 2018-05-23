@@ -8,6 +8,7 @@ using TMPro;
 public class Menu : MonoBehaviour {
 
 	List<SaveData> m_saves = new List<SaveData>();
+	[SerializeField] int m_numSaves = 0;
 	[SerializeField] TMP_Dropdown m_savesListTitleMenu;
 	[SerializeField] TMP_Dropdown m_savesListSaveMenu;
 
@@ -15,6 +16,10 @@ public class Menu : MonoBehaviour {
 	[SerializeField] GameObject titleMenu;
 	[SerializeField] GameObject gameMenu;
 	[SerializeField] GameObject saveMenu;
+
+	[SerializeField] GameObject returnToMenu;
+	[SerializeField] GameObject quitgameMenu;
+
 
 	[SerializeField] public TextMeshProUGUI boardSize;
 
@@ -35,11 +40,17 @@ public class Menu : MonoBehaviour {
 		Time.timeScale = 0.0f;
 		m_warning.SetActive(false);
 		triaDetectedPlayer1.SetActive(false);
-		
+		titleMenu.SetActive(true);
+		gameMenu.SetActive(false);
+		saveMenu.SetActive(false);
+		returnToMenu.SetActive(false);
+		quitgameMenu.SetActive(false);
+
 
 	}
 	public void ReturnToTitle()
 	{
+		Game.m_instance.m_board.ClearBoard();
 		LoadOptionDropdowns();
 		titleMenu.SetActive(true);
 		gameMenu.SetActive(false);
@@ -47,15 +58,37 @@ public class Menu : MonoBehaviour {
 		Game.m_instance.isPlayingGame = false;
 		m_warning.SetActive(false);
 		triaDetectedPlayer1.SetActive(false);
-
+		returnToMenu.SetActive(false);
+		quitgameMenu.SetActive(false);
 	}
 	public void ReturnToGame()
 	{
+		returnToMenu.SetActive(false);
+		quitgameMenu.SetActive(false);
 		titleMenu.SetActive(false);
 		saveMenu.SetActive(false);
 		gameMenu.SetActive(true);
 		Time.timeScale = 1.0f;
 		Game.m_instance.isPlayingGame = true;
+	}
+
+	public void QuitGame()
+	{
+		Application.Quit();
+	}
+
+	public void QuitDuringGame()
+	{
+		gameMenu.SetActive(false);
+		quitgameMenu.SetActive(true);
+		Game.m_instance.isPlayingGame = false;
+	}
+
+	public void ReturnToMenuDuringGame()
+	{
+		gameMenu.SetActive(false);
+		returnToMenu.SetActive(true);
+		Game.m_instance.isPlayingGame = false;
 	}
 
 	public void OpenSaveMenu()
@@ -87,12 +120,16 @@ public class Menu : MonoBehaviour {
 
 	public void LoadOptionDropdowns()
 	{
+		m_savesListTitleMenu.ClearOptions();
+		m_savesListSaveMenu.ClearOptions();
+
 		LoadFromFile();
 		List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
 		foreach (SaveData item in m_saves)
 		{
-			options.Add(new TMP_Dropdown.OptionData(item.ToString()));
+			options.Add(new TMP_Dropdown.OptionData(item.Id));
 		}
+		m_numSaves = m_saves.Count;
 		m_savesListTitleMenu.AddOptions(options);
 		m_savesListSaveMenu.AddOptions(options);
 
@@ -142,7 +179,7 @@ public class Menu : MonoBehaviour {
 	public void Save()
 	{
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Create(Application.persistentDataPath + "SavesList.dat");
+		FileStream file = File.Create(Application.persistentDataPath + "SavesList2.dat");
 		bf.Serialize(file, m_saves);
 		file.Close();
 	}
@@ -175,10 +212,10 @@ public class Menu : MonoBehaviour {
 
 	public void LoadFromFile()
 	{
-		if (File.Exists(Application.persistentDataPath + "SavesList.dat"))
+		if (File.Exists(Application.persistentDataPath + "SavesList2.dat"))
 		{
 			BinaryFormatter bf = new BinaryFormatter();
-			FileStream file = File.Open(Application.persistentDataPath + "SavesList.dat", FileMode.Open);
+			FileStream file = File.Open(Application.persistentDataPath + "SavesList2.dat", FileMode.Open);
 			m_saves = (List<SaveData>)bf.Deserialize(file);
 			file.Close();
 		}
@@ -188,7 +225,7 @@ public class Menu : MonoBehaviour {
 	{
 		if (m_savesListTitleMenu.options.Count != 0)
 		{
-			string heck = "";
+			string heck = m_savesListTitleMenu.options[m_savesListTitleMenu.value].text;
 			LoadFromFile();
 			SaveData currentSave = new SaveData();
 			foreach (SaveData item in m_saves)

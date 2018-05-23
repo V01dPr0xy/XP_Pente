@@ -58,11 +58,17 @@ public class Board : MonoBehaviour {
         return save;
     }
 
+	public void ClearBoard()
+	{
+		foreach (var item in m_placementCircles)
+		{
+			item.Clear();
+		}
+	}
+
     public void LoadSaveData(SaveData.BoardData save) {
         m_slider.value = save.sliderValue;
-        foreach (var item in m_placementCircles) {
-            item.Clear();
-        }
+		ClearBoard();
 		if (save.placementCircles != null)
         foreach (PlacementCircle current in m_placementCircles) {
             foreach (SaveData.PlacementCircleData saved in save.placementCircles) {
