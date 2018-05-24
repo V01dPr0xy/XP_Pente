@@ -7,7 +7,7 @@ using System.IO;
 
 public class Game : MonoBehaviour {
     public static Game m_instance;
-	public bool isPlayingGame = false;
+    public bool m_isPlayingGame = false;
     [SerializeField] public eMode m_mode;
     [SerializeField] public Player m_player1;
     [SerializeField] public Player m_player2;
@@ -40,23 +40,27 @@ public class Game : MonoBehaviour {
     /// menu should pause timer/game
     /// </summary>
 
-     void Update() {
+    void Update() {
+        if (m_isPlayingGame) {
+            PlacementCircle circle = null;
+            if (m_currentPlayer.Equals(m_player1) || (m_currentPlayer.Equals(m_player2))) {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit)) circle = hit.collider.gameObject.GetComponent<PlacementCircle>();
 
-		if (isPlayingGame) {
-			PlacementCircle circle = null;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			if (Physics.Raycast(ray, out hit)) circle = hit.collider.gameObject.GetComponent<PlacementCircle>();
+                if (circle) circle.Highlight();
+                if (circle != m_highlightedCircle && m_highlightedCircle != null) m_highlightedCircle.Hide();
 
-			if (circle) circle.Highlight();
-			if (circle != m_highlightedCircle && m_highlightedCircle != null) m_highlightedCircle.Hide();
-			if (Input.GetMouseButtonDown(0) && circle != null) {
-				if (circle.PlacePiece(m_currentPlayer)) {
-					SwitchPlayers();
-				}
-			}
-			m_highlightedCircle = circle;
-		}
+                if (Input.GetMouseButtonDown(0) && circle != null) {
+                    if (circle.PlacePiece(m_currentPlayer)) {
+                        SwitchPlayers();
+                    }
+                }
+            } else {
+                //AI
+            }
+            m_highlightedCircle = circle;
+        }
     }
 
     public void PlayerWon() {
@@ -75,8 +79,10 @@ public class Game : MonoBehaviour {
                     m_currentPlayer = m_playerAI;
                     break;
             }
+            //Timer text
         } else {
             m_currentPlayer = m_player1;
+            //Timer text
         }
     }
 }

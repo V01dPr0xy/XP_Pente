@@ -58,7 +58,7 @@ using TMPro;
 			titleMenu.SetActive(true);
 			gameMenu.SetActive(false);
 			Time.timeScale = 0.0f;
-			Game.m_instance.isPlayingGame = false;
+			Game.m_instance.m_isPlayingGame = false;
 			m_warning.SetActive(false);
 			triaDetectedPlayer1.SetActive(false);
 			returnToMenu.SetActive(false);
@@ -72,7 +72,7 @@ using TMPro;
 			saveMenu.SetActive(false);
 			gameMenu.SetActive(true);
 			Time.timeScale = 1.0f;
-			Game.m_instance.isPlayingGame = true;
+			Game.m_instance.m_isPlayingGame = true;
 		}
 
 		public void QuitGame()
@@ -84,14 +84,14 @@ using TMPro;
 		{
 			gameMenu.SetActive(false);
 			quitgameMenu.SetActive(true);
-			Game.m_instance.isPlayingGame = false;
+			Game.m_instance.m_isPlayingGame = false;
 		}
 
 		public void ReturnToMenuDuringGame()
 		{
 			gameMenu.SetActive(false);
 			returnToMenu.SetActive(true);
-			Game.m_instance.isPlayingGame = false;
+			Game.m_instance.m_isPlayingGame = false;
 		}
 
 		public void OpenSaveMenu()
@@ -101,7 +101,7 @@ using TMPro;
 			gameMenu.SetActive(false);
 			m_warning.SetActive(false);
 			//Time.timeScale = 0.0f;
-			Game.m_instance.isPlayingGame = false;
+			Game.m_instance.m_isPlayingGame = false;
 		}
 
 		public void ChoosePVE()
@@ -109,7 +109,7 @@ using TMPro;
 			titleMenu.SetActive(false);
 			gameMenu.SetActive(true);
 			Time.timeScale = 1.0f;
-			Game.m_instance.isPlayingGame = true;
+			Game.m_instance.m_isPlayingGame = true;
 		}
 
 		public void ChoosePVP()
@@ -117,7 +117,7 @@ using TMPro;
 			titleMenu.SetActive(false);
 			gameMenu.SetActive(true);
 			Time.timeScale = 1.0f;
-			Game.m_instance.isPlayingGame = true;
+			Game.m_instance.m_isPlayingGame = true;
 
 		}
 
