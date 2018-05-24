@@ -117,11 +117,21 @@ public class PlacementCircle : MonoBehaviour {
 
     public bool PlacePiece(Player player) {
         if (m_piece || !m_piecePrefab) return false;
+        if (Game.m_instance.FirstTurn) {
+            if (Convert.ToInt32(m_coordinate.x) != 0 || Convert.ToInt32(m_coordinate.y) != 0) return false;
+            Game.m_instance.FirstTurn = false;
+        } else if (Game.m_instance.SecondTurn && player.Equals(Game.m_instance.m_player1)) {
+            if (m_coordinate.magnitude < 2.9f) return false;
+            Game.m_instance.SecondTurn = false;
+        }
         m_piece = Instantiate(m_piecePrefab, transform.position, Quaternion.identity, transform);
         m_piece.Owner = player;
         int offset = ((Convert.ToInt32(Game.m_instance.m_board.m_slider.value) * 2) + 7) / 2;
         if (ValidityTests.CheckForWin(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))) {
-            Game.m_instance.PlayerWon();
+            Menu.m_instance.win.SetActive(true);
+            Menu.m_instance.winText.text = Game.m_instance.m_currentPlayer.Name + " has won!";
+            Game.m_instance.m_isPlayingGame = false;
+
         }
         //Check and make captures
 
@@ -176,14 +186,26 @@ public class PlacementCircle : MonoBehaviour {
 			|| ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))
 			|| ValidityTests.CheckForTriaTopRightToBottomLeftDiagonal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset)))
 		{
-			Menu.m_instance.triaDetectedPlayer1.SetActive(true);
-		}
+            Menu.m_instance.tria.SetActive(true);
+            Menu.m_instance.triaText.text = Game.m_instance.m_currentPlayer.Name + " has made a tria!";
+            Game.m_instance.m_isPlayingGame = false;
+        }
+        if (ValidityTests.CheckForTesseraHorizontal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))
+    || ValidityTests.CheckForTesseraVertical(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))
+    || ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))
+    || ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(Game.m_instance.m_board.ToArray(), Convert.ToInt32(m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(m_coordinate.y) - offset))) {
+            Menu.m_instance.tessera.SetActive(true);
+            Menu.m_instance.tesseraText.text = Game.m_instance.m_currentPlayer.Name + " has made a tessera!";
+            Game.m_instance.m_isPlayingGame = false;
+        }
 
+        Game.m_instance.m_board.OpenPlacementCircles.Remove(this);
         return true;
     }
     public void Clear() {
         if (m_piece != null) {
             Destroy(m_piece.gameObject);
+            Game.m_instance.m_board.OpenPlacementCircles.Add(this);
         }
         m_piece = null;
     }

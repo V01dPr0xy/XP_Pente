@@ -26,22 +26,25 @@ public class Board : MonoBehaviour {
     [SerializeField] float m_baseCameraDistance = -10.0f;
     [SerializeField] int[,] m_boardArray;
 
-	public int size;
+    public int size;
+    private List<PlacementCircle> m_openCircles;
 
 
     public List<PlacementCircle> PlacementCircles { get { return m_placementCircles; } set { m_placementCircles = value; } }
+    public List<PlacementCircle> OpenPlacementCircles { get { return m_openCircles; } set { m_openCircles = value; } }
 
     private void Start() {
         m_placementCircles = new List<PlacementCircle>(GetComponentsInChildren<PlacementCircle>());
+        m_openCircles = new List<PlacementCircle>(m_placementCircles);
         CenterBoard();
 
-		Menu.m_instance.boardSize.text = (((System.Convert.ToInt32(Game.m_instance.m_board.m_slider.value) * 2) + 7)) + " x " + (((System.Convert.ToInt32(Game.m_instance.m_board.m_slider.value) * 2) + 7));
+        Menu.m_instance.boardSize.text = (((System.Convert.ToInt32(Game.m_instance.m_board.m_slider.value) * 2) + 7)) + " x " + (((System.Convert.ToInt32(Game.m_instance.m_board.m_slider.value) * 2) + 7));
 
-	}
+    }
 
 
 
-	public SaveData.BoardData GetSaveData() {
+    public SaveData.BoardData GetSaveData() {
         SaveData.BoardData save = new SaveData.BoardData();
         List<SaveData.PlacementCircleData> circles = new List<SaveData.PlacementCircleData>();
 
@@ -58,27 +61,25 @@ public class Board : MonoBehaviour {
         return save;
     }
 
-	public void ClearBoard()
-	{
-		foreach (var item in m_placementCircles)
-		{
-			item.Clear();
-		}
-	}
+    public void ClearBoard() {
+        foreach (var item in m_placementCircles) {
+            item.Clear();
+        }
+    }
 
     public void LoadSaveData(SaveData.BoardData save) {
         m_slider.value = save.sliderValue;
-		ClearBoard();
-		if (save.placementCircles != null)
-        foreach (PlacementCircle current in m_placementCircles) {
-            foreach (SaveData.PlacementCircleData saved in save.placementCircles) {
-                if (current.m_coordinate.x == saved.coordinate.x &&
-                    current.m_coordinate.y == saved.coordinate.y) {
-                    if (saved.ownerId != -1) current.PlacePieceForSave(Game.m_instance.m_players[saved.ownerId]);
-                    break;
+        ClearBoard();
+        if (save.placementCircles != null)
+            foreach (PlacementCircle current in m_placementCircles) {
+                foreach (SaveData.PlacementCircleData saved in save.placementCircles) {
+                    if (current.m_coordinate.x == saved.coordinate.x &&
+                        current.m_coordinate.y == saved.coordinate.y) {
+                        if (saved.ownerId != -1) current.PlacePieceForSave(Game.m_instance.m_players[saved.ownerId]);
+                        break;
+                    }
                 }
             }
-        }
     }
 
     /// <summary>
@@ -112,7 +113,7 @@ public class Board : MonoBehaviour {
             circle.UpdateNeighborReferences();
         }
 
-		//Menu.m_instance.ViewSliderValue();
+        //Menu.m_instance.ViewSliderValue();
     }
 
     public int[,] ToArray() {
@@ -123,9 +124,9 @@ public class Board : MonoBehaviour {
                 m_boardArray[i, j] = -1;
             }
         }
-		int offset = ((Convert.ToInt32(m_slider.value) * 2) + 7) / 2;
+        int offset = ((Convert.ToInt32(m_slider.value) * 2) + 7) / 2;
 
-		foreach (PlacementCircle item in m_placementCircles) {
+        foreach (PlacementCircle item in m_placementCircles) {
             if (item.m_piece != null) {
                 m_boardArray[Convert.ToInt32(item.m_coordinate.x) + offset, Mathf.Abs(Convert.ToInt32(item.m_coordinate.y) - offset)] = item.m_piece.Owner.ID;
             } //else m_boardArray[(int)item.m_coordinate.x + offset, (int)item.m_coordinate.y + offset] = -1;

@@ -68,6 +68,8 @@ public class SaveData {
     public PlayerData player2;
     public PlayerData playerAI;
     public BoardData currentBoard;
+    public bool firstTurn;
+    public bool secondTurn;
 
 
 }

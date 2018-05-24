@@ -381,4 +381,150 @@ public class ValidityTests
 		}
 		return false;
 	}
+
+    public static bool CheckForTesseraHorizontal(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+
+        int left = 0;
+        bool continueLeft = true;
+        int right = 0;
+        bool continueRight = true;
+
+        int length = (int)Math.Sqrt(currentState.Length);
+
+        //Finds number in a row
+        for (int i = 1; i < 5; i++) {
+            //left
+            if (x - i >= 0 && continueLeft) {
+                if (currentState[x - i, y] == player) left++;
+                else continueLeft = false;
+            }
+            //right
+            if (x + i < length && continueRight) {
+                if (currentState[x + i, y] == player) right++;
+                else continueRight = false;
+            }
+
+        }
+        bool valid = false;
+        if (left + right + 1 == 4) {
+            //checks end pieces
+            if (x - left > 0) {
+                if (currentState[x - left - 1, y] == -1) valid = true;
+            }
+            if (valid && x + right < length - 1) {
+                if (currentState[x + right + 1, y] == -1) return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    public static bool CheckForTesseraVertical(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+
+        int top = 0;
+        bool continueTop = true;
+        int bottom = 0;
+        bool continueBottom = true;
+
+        int length = (int)Math.Sqrt(currentState.Length);
+
+        for (int i = 1; i < 5; i++) {
+
+            //Top
+            if (y - i >= 0 && continueTop) {
+                if (currentState[x, y - i] == player) top++;
+                else { continueTop = false; }
+            }
+            //Bottom
+            if (y + i < length && continueBottom) {
+                if (currentState[x, y + i] == player) { bottom++; } else { continueBottom = false; }
+            }
+        }
+
+        bool valid = false;
+        if (top + bottom + 1 == 4) {
+            //checks end pieces
+            if (y - top > 0) {
+                if (currentState[x, y - top - 1] == -1) valid = true;
+            }
+            if (valid && y + bottom < length - 1) {
+                if (currentState[x, y + bottom + 1] == -1) return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static bool CheckForTesseraTopRightToBottomLeftDiagonal(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+
+        int topRight = 0;
+        bool continueTopRight = true;
+        int bottomLeft = 0;
+        bool continueBottomLeft = true;
+        int length = (int)Math.Sqrt(currentState.Length);
+
+        for (int i = 1; i < 5; i++) {
+            //Top Right
+            if (x + i < length && y - i >= 0 && continueTopRight) {
+                if (currentState[x + i, y - i] == player) topRight++;
+                else continueTopRight = false;
+            }
+            //Bottom Left
+            if (x - i >= 0 && y + i < length && continueBottomLeft) {
+                if (currentState[x - i, y + i] == player) bottomLeft++;
+                else continueBottomLeft = false;
+            }
+        }
+        bool valid = false;
+        if (topRight + bottomLeft + 1 == 4) {
+            //checks end pieces
+            if (y - topRight > 0 && x + topRight < length - 1) {
+                if (currentState[x + topRight + 1, y - topRight - 1] == -1) valid = true;
+            }
+            if (valid && y + bottomLeft < length - 1 && x - bottomLeft > 0) {
+                if (currentState[x - bottomLeft - 1, y + bottomLeft + 1] == -1) return true;
+            }
+        }
+
+        return false;
+    }
+    public static bool CheckForTesseraBottomRightToTopLeftDiagonal(int[,] currentState, int x, int y) {
+        int player = currentState[x, y];
+
+        int topLeft = 0;
+        bool continueTopLeft = true;
+        int bottomRight = 0;
+        bool continueBottomRight = true;
+
+        int length = (int)Math.Sqrt(currentState.Length);
+
+        for (int i = 1; i < 5; i++) {
+            //Top Left
+            if (x - i >= 0 && y - i >= 0 && continueTopLeft) {
+                if (currentState[x - i, y - i] == player) topLeft++;
+                else continueTopLeft = false;
+            }
+            //Bottom Right
+            if (x + i < length && y + i < length && continueBottomRight) {
+                if (currentState[x + i, y + i] == player) bottomRight++;
+                else continueBottomRight = false;
+            }
+        }
+        bool valid = false;
+        if (topLeft + bottomRight + 1 == 4) {
+            //checks end pieces
+            if (y - topLeft > 0 && x - topLeft > 0) {
+                if (currentState[x - topLeft - 1, y - topLeft - 1] == -1) valid = true;
+            }
+            if (valid && y + bottomRight < length - 1 && x + bottomRight < length - 1) {
+                if (currentState[x + bottomRight + 1, y + bottomRight + 1] == -1) return true;
+            }
+        }
+        return false;
+    }
+
 }
