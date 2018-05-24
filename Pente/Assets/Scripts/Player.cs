@@ -21,15 +21,6 @@ public class Player : MonoBehaviour {
 
     public int ID { get { return m_id; } set { m_id = value; } }
 
-    /// <summary>
-    /// Checks if you can place a piece and places if true
-    /// </summary>
-    /// <returns></returns>
-    public virtual bool PlacePiece() {
-
-        throw new NotImplementedException();
-    }
-
     public SaveData.PlayerData GetSaveData() {
         SaveData.PlayerData save = new SaveData.PlayerData();
 

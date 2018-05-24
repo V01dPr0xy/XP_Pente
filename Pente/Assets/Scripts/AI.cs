@@ -26,13 +26,12 @@ public class AI : Player {
         }
     }
 
-    public override bool PlacePiece() {
+    public void PlacePiece() {
         List<PlacementCircle> activeCircles = new List<PlacementCircle>();
         foreach (var pc in Game.m_instance.m_board.OpenPlacementCircles) {
             if (pc.gameObject.activeInHierarchy) activeCircles.Add(pc);
         }
         int rand = UnityEngine.Random.Range(0, activeCircles.Count);
         m_selectionCircle = activeCircles[rand];
-        return true;
     }
 }

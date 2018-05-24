@@ -680,35 +680,10 @@ namespace UnitTestProject1
 		}
 
 		/// <summary>
-		/// TRIA CHECKS
+		/// TRIA CHECKS : VERTICAL
 		/// </summary>
 
-		[TestMethod]
-		public void CheckTriaTop()
-		{
-			int[,] current = new int[9, 9];
-
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					current[i, j] = -1;
-				}
-			}
-
-			current[6, 4] = 0;
-			current[6, 3] = 1;
-			current[6, 2] = 1;
-			current[6, 1] = 1;
-			current[6, 0] = -1;
-
-			bool actual = ValidityTests.CheckForTriaVertical(current, 6, 1);
-
-			Assert.IsFalse(actual);
-		}
-
-		[TestMethod]
-		public void CheckTriaTopTwo()
+		[TestMethod] public void CheckTria_Vertical_TopBottom_Empty()
 		{
 			int[,] current = new int[9, 9];
 
@@ -728,11 +703,56 @@ namespace UnitTestProject1
 
 			bool actual = ValidityTests.CheckForTriaVertical(current, 3, 1);
 
-			Assert.IsFalse(actual);
-		}
+			Assert.IsTrue(actual);
+        }
 
-		[TestMethod]
-		public void CheckTriaTopFail()
+        [TestMethod] public void CheckTria_Vertical_Bottom_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[6, 4] = 0;
+            current[6, 3] = 1;
+            current[6, 2] = 1;
+            current[6, 1] = 1;
+            current[6, 0] = -1;
+
+            bool actual = ValidityTests.CheckForTriaVertical(current, 6, 1);
+
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod] public void CheckTria_Vertical_Top_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[3, 8] = -1;
+            current[3, 7] = 1;
+            current[3, 6] = 1;
+            current[3, 5] = 1;
+            current[3, 4] = 2;
+
+            bool actual = ValidityTests.CheckForTriaVertical(current, 3, 7);
+
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod] public void CheckTria_Vertical_None_Empty()
 		{
 			int[,] current = new int[9, 9];
 
@@ -753,82 +773,57 @@ namespace UnitTestProject1
 			bool actual = ValidityTests.CheckForTriaVertical(current, 0, 1);
 
 			Assert.IsFalse(actual);
-		}
+        }
 
-		[TestMethod]
-		public void CheckTriaBottom()
-		{
-			int[,] current = new int[9, 9];
+        [TestMethod] public void CheckTria_Vertical_Edgecase_Bottom()
+        {
+            int[,] current = new int[9, 9];
 
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					current[i, j] = -1;
-				}
-			}
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
 
-			current[3, 8] = -1;
-			current[3, 7] = 1;
-			current[3, 6] = 1;
-			current[3, 5] = 1;
-			current[3, 4] = 2;
+            current[0, 5] = -1;
+            current[0, 6] = 1;
+            current[0, 7] = 1;
+            current[0, 8] = 1;
 
-			bool actual = ValidityTests.CheckForTriaVertical(current, 3, 7);
+            bool actual = ValidityTests.CheckForTriaVertical(current, 0, 6);
 
-			Assert.IsFalse(actual);
-		}
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod] public void CheckTria_Vertical_Edgecase_Top()
+        {
+            int[,] current = new int[9, 9];
 
-		[TestMethod]
-		public void CheckTriaBottomTwo()
-		{
-			int[,] current = new int[9, 9];
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
 
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					current[i, j] = -1;
-				}
-			}
+            current[0, 0] = 1;
+            current[0, 1] = 1;
+            current[0, 2] = 1;
+            current[0, 3] = -1;
 
-			current[1, 8] = -1;
-			current[1, 7] = 1;
-			current[1, 6] = 1;
-			current[1, 5] = 1;
-			current[1, 4] = -1;
+            bool actual = ValidityTests.CheckForTriaVertical(current, 0, 0);
 
-			bool actual = ValidityTests.CheckForTriaVertical(current, 1, 7);
+            Assert.IsFalse(actual);
+        }
+        
+        /// <summary>
+        /// TRIA CHECKS : HORIZONTAL
+        /// </summary>
 
-			Assert.IsFalse(actual);
-		}
-
-		[TestMethod]
-		public void CheckTriaBottomFail()
-		{
-			int[,] current = new int[9, 9];
-
-			for (int i = 0; i < 9; i++)
-			{
-				for (int j = 0; j < 9; j++)
-				{
-					current[i, j] = -1;
-				}
-			}
-
-			current[3, 8] = 2;
-			current[3, 7] = 1;
-			current[3, 6] = 1;
-			current[3, 5] = 1;
-			current[3, 4] = 2;
-
-			bool actual = ValidityTests.CheckForTriaVertical(current, 3, 7);
-
-			Assert.IsFalse(actual);
-		}
-
-		[TestMethod]
-		public void CheckTriaLeft()
+        [TestMethod] public void CheckTria_Horizontal_Left_Empty()
 		{
 			int[,] current = new int[9, 9];
 
@@ -851,8 +846,7 @@ namespace UnitTestProject1
 			Assert.IsFalse(actual);
 		}
 
-		[TestMethod]
-		public void CheckTriaLeftTwo()
+		[TestMethod] public void CheckTria_Horizontal_Both_Empty()
 		{
 			int[,] current = new int[9, 9];
 
@@ -872,11 +866,10 @@ namespace UnitTestProject1
 
 			bool actual = ValidityTests.CheckForTriaHorizontal(current, 4, 4);
 
-			Assert.IsFalse(actual);
+			Assert.IsTrue(actual);
 		}
 
-		[TestMethod]
-		public void CheckTriaLeftFail()
+		[TestMethod] public void CheckTria_Horizontal_None_Empty()
 		{
 			int[,] current = new int[9, 9];
 
@@ -899,8 +892,7 @@ namespace UnitTestProject1
 			Assert.IsFalse(actual);
 		}
 
-		[TestMethod]
-		public void CheckTriaRight()
+		[TestMethod] public void CheckTria_Horizontal_Right_Empty()
 		{
 			int[,] current = new int[9, 9];
 
@@ -923,8 +915,7 @@ namespace UnitTestProject1
 			Assert.IsFalse(actual);
 		}
 
-		[TestMethod]
-		public void CheckTriaRightTwo()
+		[TestMethod] public void CheckTria_Horizontal_Edgecase_Left()
 		{
 			int[,] current = new int[9, 9];
 
@@ -936,19 +927,17 @@ namespace UnitTestProject1
 				}
 			}
 
-			current[1, 0] = -1;
+			current[0, 0] = 0;
+			current[1, 0] = 0;
 			current[2, 0] = 0;
-			current[3, 0] = 0;
-			current[4, 0] = 0;
-			current[5, 0] = -1;
+			current[3, 0] = -1;
 
-			bool actual = ValidityTests.CheckForTriaHorizontal(current, 4, 0);
+			bool actual = ValidityTests.CheckForTriaHorizontal(current, 1, 0);
 
 			Assert.IsFalse(actual);
 		}
 
-		[TestMethod]
-		public void CheckTriaRightFail()
+		[TestMethod] public void CheckTria_Horizontal_Edgecase_Right()
 		{
 			int[,] current = new int[9, 9];
 
@@ -960,18 +949,1052 @@ namespace UnitTestProject1
 				}
 			}
 
-			current[4, 3] = 1;
-			current[5, 3] = 0;
+			current[5, 3] = 1;
 			current[6, 3] = 0;
 			current[7, 3] = 0;
-			current[8, 3] = 1;
+			current[8, 3] = 0;
 
 			bool actual = ValidityTests.CheckForTriaHorizontal(current, 7, 3);
 
 			Assert.IsFalse(actual);
 		}
 
-		[TestMethod]
+        /// <summary>
+        /// TRIA CHECKS : DIAGONAL (TOP LEFT)
+        /// </summary>
+
+        [TestMethod] public void CheckTria_LeftDiagonal_Left_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[3,3] = -1;
+            current[4,4] = 0;
+            current[5,5] = 0;
+            current[6,6] = 0;
+            current[7,7] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 6, 6));
+        }
+
+        [TestMethod] public void CheckTria_LeftDiagonal_Right_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[3, 3] = 1;
+            current[4, 4] = 0;
+            current[5, 5] = 0;
+            current[6, 6] = 0;
+            current[7, 7] = -1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 6, 6));
+        }
+
+        [TestMethod] public void CheckTria_LeftDiagonal_Both_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[3, 3] = -1;
+            current[4, 4] = 0;
+            current[5, 5] = 0;
+            current[6, 6] = 0;
+            current[7, 7] = -1;
+
+            Assert.IsTrue(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 6, 6));
+        }
+
+        [TestMethod] public void CheckTria_LeftDiagonal_None_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[3, 3] = 1;
+            current[4, 4] = 0;
+            current[5, 5] = 0;
+            current[6, 6] = 0;
+            current[7, 7] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 6, 6));
+        }
+
+        [TestMethod] public void CheckTria_LeftDiagonal_Edgecase_Top_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0, 0] = 0;
+            current[1, 1] = 0;
+            current[2, 2] = 0;
+            current[3, 3] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 2, 2));
+        }
+
+        [TestMethod] public void CheckTria_LeftDiagonal_Edgecase_Top_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0, 0] = 0;
+            current[1, 1] = 0;
+            current[2, 2] = 0;
+            current[3, 3] = -1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 2, 2));
+        }
+
+        [TestMethod] public void CheckTria_RightDiagonal_Edgecase_Bottom_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0, 8] = 0;
+            current[1, 7] = 0;
+            current[2, 6] = 0;
+            current[3, 5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 0, 8));
+        }
+
+        [TestMethod] public void CheckTria_RightDiagonal_Edgecase_Bottom_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0, 8] = 0;
+            current[1, 7] = 0;
+            current[2, 6] = 0;
+            current[3, 5] = -1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 0, 8));
+        }
+
+        /// <summary>
+        /// TRIA CHECKS : DIAGONAL (TOP RIGHT)
+        /// </summary>
+
+        [TestMethod] public void CheckTria_RightDiagonal_Left_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8, 0] = 1;
+            current[7, 1] = 0;
+            current[6, 2] = 0;
+            current[5, 3] = 0;
+            current[4, 4] = -1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 5, 3));
+        }
+
+        [TestMethod] public void CheckTria_RightDiagonal_Right_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8, 0] = -1;
+            current[7, 1] = 0;
+            current[6, 2] = 0;
+            current[5, 3] = 0;
+            current[4, 4] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 5, 3));
+        }
+
+        [TestMethod] public void CheckTria_RightDiagonal_Both_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0, 0] = -1;
+            current[1, 1] = 0;
+            current[2, 2] = 0;
+            current[3, 3] = 0;
+            current[4, 4] = -1;
+
+            Assert.IsTrue(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 1, 1));
+        }
+
+        [TestMethod] public void CheckTria_RightDiagonal_None_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8, 0] = 1;
+            current[7, 1] = 0;
+            current[6, 2] = 0;
+            current[5, 3] = 0;
+            current[4, 4] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 5, 3));
+        }
+
+        [TestMethod] public void CheckTria_RightDiagonal_Edgecase_Top_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8, 0] = 0;
+            current[7, 1] = 0;
+            current[6, 2] = 0;
+            current[5, 3] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 8, 0));
+        }
+
+        [TestMethod] public void CheckTria_RightDiagonal_Edgecase_Top_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8, 0] = 0;
+            current[7, 1] = 0;
+            current[6, 2] = 0;
+            current[5, 3] = -1;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 8, 0));
+        }
+
+        [TestMethod] public void CheckTria_LeftDiagonal_Edgecase_Bottom_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[5, 5] = 1;
+            current[6, 6] = 0;
+            current[7, 7] = 0;
+            current[8, 8] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 8, 8));
+        }
+
+        [TestMethod] public void CheckTria_LeftDiagonal_Edgecase_Bottom_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[6, 6] = -1;
+            current[7, 7] = 0;
+            current[8, 8] = 0;
+            current[8, 8] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 8, 8));
+        }
+
+        /// <summary>
+        /// TESSERA CHECKS : LEFT DIAGONAL
+        /// </summary>
+
+        [TestMethod] public void CheckTessera_LeftDiagonal_Edgecase_Top_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,0] = 0;
+            current[1,1] = 0;
+            current[2,2] = 0;
+            current[3,3] = 0;
+            current[4,4] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 0, 0));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_LeftDiagonal_Edgecase_Top_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,0] = 0;
+            current[1,1] = 0;
+            current[2,2] = 0;
+            current[3,3] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 0, 0));
+        }
+
+        [TestMethod] public void CheckTessera_LeftDiagonal_Edgecase_Bottom_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,8] = 0;
+            current[7,7] = 0;
+            current[6,6] = 0;
+            current[5,5] = 0;
+            current[4,4] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 8, 8));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_LeftDiagonal_Edgecase_Bottom_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,8] = 0;
+            current[7,7] = 0;
+            current[6,6] = 0;
+            current[5,5] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 8, 8));
+        }
+
+        [TestMethod] public void CheckTessera_LeftDiagonal_Both_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+            
+            current[1,1] = 0;
+            current[2,2] = 0;
+            current[3,3] = 0;
+            current[4,4] = 0;
+
+            Assert.IsTrue(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 1, 1));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_LeftDiagonal_Left_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+            
+            current[1,1] = 0;
+            current[2,2] = 0;
+            current[3,3] = 0;
+            current[4,4] = 0;
+            current[5,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 1, 1));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_LeftDiagonal_Right_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,0] = 1;
+            current[1,1] = 0;
+            current[2,2] = 0;
+            current[3,3] = 0;
+            current[4,4] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 1, 1));
+        }
+
+        [TestMethod] public void CheckTessera_LeftDiagonal_Both_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,0] = 1;
+            current[1,1] = 0;
+            current[2,2] = 0;
+            current[3,3] = 0;
+            current[4,4] = 0;
+            current[5,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraBottomRightToTopLeftDiagonal(current, 1, 1));
+        }
+
+
+        /// <summary>
+        /// TESSERA CHECKS : RIGHT DIAGONAL
+        /// </summary>
+
+        [TestMethod] public void CheckTessera_RightDiagonal_Edgecase_Top_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,0] = 0;
+            current[7,1] = 0;
+            current[6,2] = 0;
+            current[5,3] = 0;
+            current[4,4] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 8, 0));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_RightDiagonal_Edgecase_Top_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,0] = 0;
+            current[7,1] = 0;
+            current[6,2] = 0;
+            current[5,3] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 8, 0));
+        }
+
+        [TestMethod] public void CheckTessera_RightDiagonal_Edgecase_Bottom_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,8] = 0;
+            current[1,7] = 0;
+            current[2,6] = 0;
+            current[3,5] = 0;
+            current[4,4] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 0, 8));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_RightDiagonal_Edgecase_Bottom_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,8] = 0;
+            current[1,7] = 0;
+            current[2,6] = 0;
+            current[3,5] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 0, 8));
+        }
+
+        [TestMethod] public void CheckTessera_RightDiagonal_Both_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+            
+            current[8,1] = 0;
+            current[7,2] = 0;
+            current[6,3] = 0;
+            current[5,4] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 8, 1));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_RightDiagonal_Left_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,0] = 1;
+            current[7,1] = 0;
+            current[6,2] = 0;
+            current[5,3] = 0;
+            current[4,4] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 7, 1));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_RightDiagonal_Right_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,1] = 0;
+            current[7,2] = 0;
+            current[6,3] = 0;
+            current[5,4] = 0;
+            current[4,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 8, 1));
+        }
+
+        [TestMethod] public void CheckTessera_RightDiagonal_Both_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,0] = 1;
+            current[7,1] = 0;
+            current[6,2] = 0;
+            current[5,3] = 0;
+            current[4,4] = 0;
+            current[3,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraTopRightToBottomLeftDiagonal(current, 8, 1));
+        }
+
+        /// <summary>
+        /// TESSERA CHECKS : HORIZONTAL
+        /// </summary>
+
+        [TestMethod] public void CheckTessera_Horizontal_Edgecase_Left_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,5] = 0;
+            current[1,5] = 0;
+            current[2,5] = 0;
+            current[3,5] = 0;
+            current[4,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraHorizontal(current, 0, 5));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Horizontal_Edgecase_Left_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,5] = 0;
+            current[1,5] = 0;
+            current[2,5] = 0;
+            current[3,5] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraHorizontal(current, 3, 5));
+        }
+
+        [TestMethod] public void CheckTessera_Horizontal_Edgecase_Right_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,5] = 0;
+            current[7,5] = 0;
+            current[6,5] = 0;
+            current[5,5] = 0;
+            current[4,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraHorizontal(current, 8, 5));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Horizontal_Edgecase_Right_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[8,5] = 0;
+            current[7,5] = 0;
+            current[6,5] = 0;
+            current[5,5] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraHorizontal(current, 8, 5));
+        }
+
+        [TestMethod] public void CheckTessera_Horizontal_Both_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[1,5] = 0;
+            current[2,5] = 0;
+            current[3,5] = 0;
+            current[4,5] = 0;
+
+            Assert.IsTrue(ValidityTests.CheckForTesseraHorizontal(current, 1, 5));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Horizontal_Left_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[1,5] = 0;
+            current[2,5] = 0;
+            current[3,5] = 0;
+            current[4,5] = 0;
+            current[5,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraHorizontal(current, 1, 5));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Horizontal_Right_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,5] = 1;
+            current[1,5] = 0;
+            current[2,5] = 0;
+            current[3,5] = 0;
+            current[4,5] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraHorizontal(current, 1, 5));
+        }
+
+        [TestMethod] public void CheckTessera_Horizontal_Both_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[0,5] = 1;
+            current[1,5] = 0;
+            current[2,5] = 0;
+            current[3,5] = 0;
+            current[4,5] = 0;
+            current[5,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraHorizontal(current, 1, 5));
+        }
+
+        /// <summary>
+        /// TESSERA CHECKS : VERTICAL
+        /// </summary>
+
+        [TestMethod] public void CheckTessera_Vertical_TopEdgecase_Bottom_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[5,0] = 0;
+            current[5,1] = 0;
+            current[5,2] = 0;
+            current[5,3] = 0;
+            current[5,4] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraVertical(current, 5, 0));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Vertical_TopEdgecase_Bottom_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[5,0] = 0;
+            current[5,1] = 0;
+            current[5,2] = 0;
+            current[5,3] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraVertical(current, 5, 0));
+        }
+
+        [TestMethod] public void CheckTessera_Vertical_BottomEdgecase_Top_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+            
+            current[5,4] = 1;
+            current[5,5] = 0;
+            current[5,6] = 0;
+            current[5,7] = 0;
+            current[5,8] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraVertical(current, 5, 6));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Vertical_BottomEdgecase_Top_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+            
+            current[5,5] = 0;
+            current[5,6] = 0;
+            current[5,7] = 0;
+            current[5,8] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraVertical(current, 5, 6));
+        }
+
+        [TestMethod] public void CheckTessera_Vertical_Both_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+            
+            current[5,1] = 0;
+            current[5,2] = 0;
+            current[5,3] = 0;
+            current[5,4] = 0;
+
+            Assert.IsTrue(ValidityTests.CheckForTesseraVertical(current, 5, 1));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Vertical_Top_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[5,1] = 0;
+            current[5,2] = 0;
+            current[5,3] = 0;
+            current[5,4] = 0;
+            current[5,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraVertical(current, 5, 1));
+        }
+
+        //Check if this passes with Professor Krebs, or if it is a failing condition
+        [TestMethod] public void CheckTessera_Vertical_Bottom_Empty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[5,0] = 1;
+            current[5,1] = 0;
+            current[5,2] = 0;
+            current[5,3] = 0;
+            current[5,4] = 0;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraVertical(current, 5, 1));
+        }
+
+        [TestMethod] public void CheckTessera_Vertical_Both_NotEmpty()
+        {
+            int[,] current = new int[9, 9];
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    current[i, j] = -1;
+                }
+            }
+
+            current[5,0] = 1;
+            current[5,1] = 0;
+            current[5,2] = 0;
+            current[5,3] = 0;
+            current[5,4] = 0;
+            current[5,5] = 1;
+
+            Assert.IsFalse(ValidityTests.CheckForTesseraVertical(current, 5, 1));
+        }
+
+
+
+        [TestMethod]
 		public void CheckTriaTopLeft()
 		{
 			int[,] current = new int[9, 9];
@@ -1160,7 +2183,7 @@ namespace UnitTestProject1
 
 			bool actual = ValidityTests.CheckForTriaBottomRightToTopLeftDiagonal(current, 7, 5);
 
-			Assert.IsFalse(actual);
+			Assert.IsTrue(actual);
 		}
 
 		[TestMethod]
@@ -1232,7 +2255,7 @@ namespace UnitTestProject1
 
 			bool actual = ValidityTests.CheckForTriaTopRightToBottomLeftDiagonal(current, 5, 4);
 
-			Assert.IsFalse(actual);
+			Assert.IsTrue(actual);
 		}
 
 		[TestMethod]
@@ -1258,5 +2281,8 @@ namespace UnitTestProject1
 
 			Assert.IsFalse(actual);
 		}
+
+
+
 	}
 }
